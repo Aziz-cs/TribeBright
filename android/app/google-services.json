@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "263176256122",
+    "firebase_url": "https://tribebright-6a132-default-rtdb.firebaseio.com",
+    "project_id": "tribebright-6a132",
+    "storage_bucket": "tribebright-6a132.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:263176256122:android:30d2faa7886a8d0d9d59c3",
+        "android_client_info": {
+          "package_name": "com.tribebright.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "263176256122-dh7qjrfioetael7atgt1ck4hsvdmfr3l.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.tribebright.app",
+            "certificate_hash": "ba18b6eb0a6b1d9fc3dabe1681702acff055a9ec"
+          }
+        },
+        {
+          "client_id": "263176256122-hlspj5gkv9fofdhdp9gkqkktopagjcvp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC8HBiSw959s5I2u75voiOdQ5_ulXrzpAw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "263176256122-hlspj5gkv9fofdhdp9gkqkktopagjcvp.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "263176256122-83tkubd8lfdgl9b6qh0lraf6rce4jd89.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.tribebright.app"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
