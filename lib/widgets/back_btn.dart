@@ -16,7 +16,7 @@ class BackBtn extends StatelessWidget {
       child: const Icon(
         CupertinoIcons.back,
         size: 23,
-        color: kPurplE,
+        color: kPurple,
       ),
       shape: const CircleBorder(),
     );

@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:tribebright/screens/journal_screens/journal_screen.dart';
 import 'package:tribebright/screens/lessons_screen/lessons_screen.dart';
 
 import '../../constants.dart';
 import '../../utils/firebase_api.dart';
 import '../../widgets/menu_drawer.dart';
+import '../daily_screen.dart';
 import 'card_category.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -83,8 +85,10 @@ class _HomeScreenState extends State<HomeScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                _buildRoundBtn("Emotions", "happy_ic", () {}),
-                _buildRoundBtn("Journal", "journal_ic", () {}),
+                _buildRoundBtn("Daily check-in", "happy_ic",
+                    () => Get.to(() => const DailyScreen())),
+                _buildRoundBtn("Journal", "journal_ic",
+                    () => Get.to(() => const JournalScreen())),
                 _buildRoundBtn(
                   "Sleep",
                   "sound_ic",
@@ -94,20 +98,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ],
             ),
-            // SingleChildScrollView(
-            //   scrollDirection: Axis.horizontal,
-            //   child: Row(
-            //     children: const [
-            //       PlayCard(
-            //         subTitle: "Inner Listening",
-            //       ),
-            //       PlayCard(
-            //         subTitle: "Happy Heart",
-            //         isWatching: false,
-            //       ),
-            //     ],
-            //   ),
-            // ),
             Stack(
               clipBehavior: Clip.none,
               children: [
@@ -150,6 +140,7 @@ class _HomeScreenState extends State<HomeScreen> {
         selectedFontSize: 13.sp,
         unselectedFontSize: 11.sp,
         currentIndex: _currentIndex,
+        type: BottomNavigationBarType.fixed,
         onTap: (tabIndex) {
           setState(() {
             _currentIndex = tabIndex;
@@ -159,6 +150,7 @@ class _HomeScreenState extends State<HomeScreen> {
           _buildNavIcon("Home", "home_ic"),
           _buildNavIcon("Favorites", "fav_ic"),
           _buildNavIcon("Sleep", "lessons_ic"),
+          _buildNavIcon("Parents", "parents_ic"),
         ],
       ),
     );
@@ -166,8 +158,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _buildRoundBtn(String label, String imgName, VoidCallback onPress) {
     return SizedBox(
-      height: 90.h,
-      width: 90.w,
+      height: 95.h,
+      width: 95.w,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           primary: const Color(0XFF9368c4),
@@ -176,6 +168,7 @@ class _HomeScreenState extends State<HomeScreen> {
           padding: const EdgeInsets.all(24),
         ),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Image.asset(
               "assets/images/$imgName.png",
@@ -185,6 +178,7 @@ class _HomeScreenState extends State<HomeScreen> {
             Flexible(
               child: Text(
                 label,
+                textAlign: TextAlign.center,
                 style: TextStyle(
                   fontFamily: "Acme",
                   fontSize: 13.sp,

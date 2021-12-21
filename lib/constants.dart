@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'model/lesson.dart';
 
-const kPurplE = Color(0xFFA075D1);
+const kPurple = Color(0xFFA075D1);
 const kDarkPurple = Color(0xFF4D4290);
 
 const kTopDownLogin = LinearGradient(
@@ -35,15 +35,16 @@ const kGradCardPurple = LinearGradient(
   ],
 );
 
+const kGradBtn = LinearGradient(
+  begin: Alignment.centerLeft,
+  end: Alignment.centerRight,
+  colors: [
+    Color(0xFF9288CF),
+    Color(0xFF99ABEC),
+  ],
+);
+
 const kSelectedTrqwaz = Color(0xFFD3EEF2);
-
-final Shader linearGradient = const LinearGradient(
-  colors: <Color>[Color(0xff3B2073), Colors.red],
-).createShader(const Rect.fromLTWH(0.0, 0.0, 200.0, 70.0));
-
-final Shader textGradient = const LinearGradient(
-  colors: <Color>[Color(0xffDA44bb), Color(0xff8921aa)],
-).createShader(const Rect.fromLTWH(0.0, 0.0, 200.0, 70.0));
 
 Divider aDivider() {
   return Divider(

@@ -12,14 +12,19 @@ class FirebaseAPI {
         .once()
         .then((categoriesDB) {
       // print(categoriesDB.value);
+      print("key: ${categoriesDB.key ?? "0"}");
+
       List categoriesValue = categoriesDB.value;
+      int index = 0;
       for (var element in categoriesValue) {
         Category category = Category(
             name: element['name'] ?? 'backup name',
             imgCategoryURL: element['imgCategoryURL'] ?? 'backup img',
             imgCategoryBigURL: element['imgCategoryBigURL'] ?? 'backup img',
-            videos: element['videos']);
+            videos: element['videos'],
+            categoryIndex: index);
         categories.add(category);
+        index++;
       }
     });
   }
@@ -30,13 +35,14 @@ class FirebaseAPI {
         .child('sleepSounds')
         .once()
         .then((categoriesDB) {
-      print(categoriesDB.value);
+      // print(categoriesDB.value);
       sleepCategory = Category(
-          name: categoriesDB.value['name'] ?? 'backup name',
-          imgCategoryURL: 'none',
-          imgCategoryBigURL:
-              categoriesDB.value['imgCategoryBigURL'] ?? 'backup img',
-          videos: categoriesDB.value['sounds']);
+        name: categoriesDB.value['name'] ?? 'backup name',
+        imgCategoryURL: 'none',
+        imgCategoryBigURL:
+            categoriesDB.value['imgCategoryBigURL'] ?? 'backup img',
+        videos: categoriesDB.value['sounds'],
+      );
 
       print("sleep category: ${sleepCategory.toString()}");
     });

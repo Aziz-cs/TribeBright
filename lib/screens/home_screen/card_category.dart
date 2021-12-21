@@ -34,7 +34,7 @@ class CategoryCard extends StatelessWidget {
               child: CachedNetworkImage(
                 imageUrl: category.imgCategoryURL,
                 placeholder: (context, url) => const CircularProgressIndicator(
-                  color: kPurplE,
+                  color: kPurple,
                 ),
                 errorWidget: (context, url, error) => Icon(Icons.error),
               ),

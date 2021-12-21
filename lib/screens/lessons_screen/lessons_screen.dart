@@ -31,7 +31,7 @@ class LessonsScreen extends StatelessWidget {
             child: Column(
               children: [
                 SizedBox(
-                  height: 37.h,
+                  height: 44.h,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -73,15 +73,19 @@ class LessonsScreen extends StatelessWidget {
 
   List<Widget> _buildCategoryLessons(Category category) {
     List<Widget> mediationsLessonsWidgets = [];
+    int index = 0;
+
     category.videos.forEach((element) {
       Lesson lesson = Lesson(
-        title: element['title'],
-        videoURL: element['videoURL'],
-        categoryName: category.name,
-      );
+          title: element['title'],
+          videoURL: element['videoURL'],
+          categoryName: category.name,
+          categoryIndex: category.categoryIndex ?? 0,
+          lessonIndex: index);
       mediationsLessonsWidgets.add(PlayCard(
         lesson: lesson,
       ));
+      index++;
     });
     return mediationsLessonsWidgets;
   }

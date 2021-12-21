@@ -40,9 +40,12 @@ class PlayCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   RawMaterialButton(
-                    splashColor: kPurplE,
+                    splashColor: kPurple,
                     onPressed: () {
-                      Get.to(() => VideoScreen(lesson: lesson));
+                      if (lesson.categoryName.toLowerCase().contains('sleep')) {
+                      } else {
+                        Get.to(() => VideoScreen(lesson: lesson));
+                      }
                     },
                     fillColor: const Color(0xFF3d337c),
                     child: Image.asset(
@@ -62,7 +65,7 @@ class PlayCard extends StatelessWidget {
                     ),
                   ),
                   RawMaterialButton(
-                    splashColor: kPurplE,
+                    splashColor: kPurple,
                     onPressed: () {},
                     fillColor: kDarkPurple,
                     child: const Icon(

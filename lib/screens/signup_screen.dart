@@ -51,21 +51,10 @@ class SignUpScreen extends StatelessWidget {
                         height: 47.h,
                       ),
                       SizedBox(height: 12.h),
-                      const MyTextField(
-                        label: "Full name",
-                        suffixIcon: Icon(CupertinoIcons.person_fill,
-                            color: Colors.white),
-                      ),
-                      SizedBox(height: 15.h),
+
                       const MyTextField(
                         label: "Email address",
                         suffixIcon: Icon(CupertinoIcons.mail_solid,
-                            color: Colors.white),
-                      ),
-                      SizedBox(height: 15.h),
-                      const MyTextField(
-                        label: "Phone number",
-                        suffixIcon: Icon(CupertinoIcons.phone_fill,
                             color: Colors.white),
                       ),
                       SizedBox(height: 15.h),
@@ -75,7 +64,19 @@ class SignUpScreen extends StatelessWidget {
                             color: Colors.white),
                         isObsecure: true,
                       ),
-                      SizedBox(height: 20.h),
+                      SizedBox(height: 15.h),
+                      const MyTextField(
+                        label: "Full name",
+                        suffixIcon: Icon(CupertinoIcons.person_fill,
+                            color: Colors.white),
+                      ),
+                      SizedBox(height: 15.h),
+                      const MyTextField(
+                        label: "Phone number",
+                        suffixIcon: Icon(CupertinoIcons.phone_fill,
+                            color: Colors.white),
+                      ),
+                      SizedBox(height: 15.h),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
@@ -99,8 +100,9 @@ class SignUpScreen extends StatelessWidget {
 
                       FancyBtn(
                         text: "Sign Up",
+                        onPress: () {},
                       ),
-                      SizedBox(height: 20.h),
+                      SizedBox(height: 8.h),
                     ],
                   ),
                 ),

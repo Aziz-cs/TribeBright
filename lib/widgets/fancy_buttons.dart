@@ -30,7 +30,7 @@ class FancyBtn extends StatelessWidget {
           ),
         ),
         style: TextButton.styleFrom(
-          primary: kPurplE,
+          primary: kPurple,
           elevation: isDisabled ? 2 : 0,
           backgroundColor: isDisabled ? Colors.grey : Colors.white,
           shape: const RoundedRectangleBorder(
@@ -62,7 +62,7 @@ class FancyBtnIC extends StatelessWidget {
         text ?? "",
         style: TextStyle(
           fontSize: 15.sp,
-          color: kPurplE,
+          color: kPurple,
         ),
       ),
       style: TextButton.styleFrom(
@@ -70,6 +70,43 @@ class FancyBtnIC extends StatelessWidget {
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(16)),
         ),
+      ),
+    );
+  }
+}
+
+class RaisedGradientButton extends StatelessWidget {
+  final Widget child;
+  final Gradient? gradient;
+  final double width;
+  final double height;
+  final VoidCallback? onPressed;
+
+  const RaisedGradientButton({
+    Key? key,
+    required this.child,
+    this.gradient,
+    this.width = double.infinity,
+    this.height = 50.0,
+    this.onPressed,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: width,
+      height: 50.0,
+      decoration: BoxDecoration(
+        gradient: gradient,
+        borderRadius: BorderRadius.circular(30),
+      ),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+            onTap: onPressed,
+            child: Center(
+              child: child,
+            )),
       ),
     );
   }
