@@ -8,8 +8,8 @@ import '../utils/firebase_api.dart';
 
 import '../constants.dart';
 import '../widgets/fancy_buttons.dart';
-import 'home_screen/home_screen.dart';
-import 'signup_screen.dart';
+import 'home_page/home_page.dart';
+import 'sign_up/signup_page.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({Key? key}) : super(key: key);

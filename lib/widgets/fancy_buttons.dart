@@ -8,12 +8,15 @@ class FancyBtn extends StatelessWidget {
     this.text,
     this.onPress,
     this.isDisabled = false,
+    this.fillColor = Colors.white,
+    this.textColor = kDarkPurple,
   });
 
   final String? text;
   final VoidCallback? onPress;
   final bool isDisabled;
-
+  final Color fillColor;
+  final Color textColor;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -25,14 +28,15 @@ class FancyBtn extends StatelessWidget {
           text ?? "",
           style: TextStyle(
             fontSize: 17.sp,
-            color: Colors.purple.shade800,
+            color: textColor,
+            // color: Colors.purple.shade800,
             // foreground: Paint()..shader = textGradient,
           ),
         ),
         style: TextButton.styleFrom(
           primary: kPurple,
           elevation: isDisabled ? 2 : 0,
-          backgroundColor: isDisabled ? Colors.grey : Colors.white,
+          backgroundColor: isDisabled ? Colors.grey : fillColor,
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(16)),
           ),

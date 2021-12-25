@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import '../../model/lesson.dart';
 
 import '../../constants.dart';
-import '../video_screen.dart';
+import '../video_page.dart';
 
 class PlayCard extends StatelessWidget {
   const PlayCard({

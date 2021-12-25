@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import '../../model/category.dart';
 
-import '../lessons_screen/lessons_screen.dart';
+import '../lessons_pages/lessons_page.dart';
 import '../../constants.dart';
 
 class CategoryCard extends StatelessWidget {

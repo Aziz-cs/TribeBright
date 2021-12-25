@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:tribebright/pages/sign_up/add_child_page.dart';
 
-import '../constants.dart';
-import '../widgets/fancy_buttons.dart';
+import '../../constants.dart';
+import '../../widgets/fancy_buttons.dart';
 
 class SignUpScreen extends StatelessWidget {
   const SignUpScreen({Key? key}) : super(key: key);
@@ -100,7 +102,9 @@ class SignUpScreen extends StatelessWidget {
 
                       FancyBtn(
                         text: "Sign Up",
-                        onPress: () {},
+                        onPress: () {
+                          Get.off(() => AddChildScreen());
+                        },
                       ),
                       SizedBox(height: 8.h),
                     ],

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:tribebright/screens/journal_screens/journal_screen.dart';
-import 'package:tribebright/screens/lessons_screen/lessons_screen.dart';
+import 'package:tribebright/pages/journal_pages/journal_page.dart';
+import 'package:tribebright/pages/lessons_pages/lessons_page.dart';
 
 import '../../constants.dart';
 import '../../utils/firebase_api.dart';
 import '../../widgets/menu_drawer.dart';
-import '../daily_screen.dart';
+import '../daily_page.dart';
 import 'card_category.dart';
 
 class HomeScreen extends StatefulWidget {
