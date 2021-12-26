@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -6,11 +5,10 @@ import 'package:tribebright/pages/journal_pages/goals_page.dart';
 import 'package:tribebright/pages/journal_pages/grateful_page.dart';
 import 'package:tribebright/pages/journal_pages/reflection_page.dart';
 import 'package:tribebright/widgets/back_btn.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../constants.dart';
 
-class JournalScreen extends StatelessWidget {
-  const JournalScreen({
+class JournalPage extends StatelessWidget {
+  const JournalPage({
     Key? key,
   }) : super(key: key);
 
@@ -52,19 +50,19 @@ class JournalScreen extends StatelessWidget {
                 title: 'Today',
                 subtitle: "I'm grateful for..",
                 imgPath: "assets/images/btn_grateful.png",
-                onPress: () => Get.to(() => const GratefulScreen()),
+                onPress: () => Get.to(() => const GratefulPage()),
               ),
               _buildJournalBtn(
                 title: 'Goals',
                 subtitle: "That define your future..",
                 imgPath: "assets/images/btn_goals.png",
-                onPress: () => Get.to(() => const GoalsScreen()),
+                onPress: () => Get.to(() => const GoalsPage()),
               ),
               _buildJournalBtn(
                 title: 'Reflect',
                 subtitle: "On your day..",
                 imgPath: "assets/images/btn_reflect.png",
-                onPress: () => Get.to(() => const ReflectionScreen()),
+                onPress: () => Get.to(() => const ReflectionPage()),
               ),
             ]),
           ),

@@ -10,14 +10,14 @@ import '../../widgets/menu_drawer.dart';
 import '../daily_page.dart';
 import 'card_category.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+class HomePage extends StatefulWidget {
+  const HomePage({Key? key}) : super(key: key);
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<HomePage> createState() => _HomePageState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomePageState extends State<HomePage> {
   final GlobalKey<ScaffoldState> _key = GlobalKey(); // Create a key
   int _currentIndex = 0;
 
@@ -86,14 +86,14 @@ class _HomeScreenState extends State<HomeScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 _buildRoundBtn("Daily check-in", "happy_ic",
-                    () => Get.to(() => const DailyScreen())),
+                    () => Get.to(() => const DailyPage())),
                 _buildRoundBtn("Journal", "journal_ic",
-                    () => Get.to(() => const JournalScreen())),
+                    () => Get.to(() => const JournalPage())),
                 _buildRoundBtn(
                   "Sleep",
                   "sound_ic",
                   () => Get.to(
-                    () => LessonsScreen(category: FirebaseAPI.sleepCategory),
+                    () => LessonsPage(category: FirebaseAPI.sleepCategory),
                   ),
                 ),
               ],

@@ -27,7 +27,7 @@ class CustomTextField extends StatelessWidget {
       controller: controller,
       // textDirection: TextDirection.rtl,
       keyboardType: inputType,
-      style: const TextStyle(color: Colors.black),
+      style: const TextStyle(color: kDarkPurple),
       validator: validator,
       decoration: InputDecoration(
         hintText: label,
@@ -63,6 +63,43 @@ class CustomTextField extends StatelessWidget {
         contentPadding: const EdgeInsets.symmetric(vertical: 13),
       ),
       obscureText: isObsecure,
+    );
+  }
+}
+
+class MyTextFormField extends StatelessWidget {
+  const MyTextFormField({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10),
+      decoration: BoxDecoration(
+        shape: BoxShape.rectangle,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(
+          color: kPurple,
+          width: 1.0,
+        ),
+      ),
+      child: TextFormField(
+        style: const TextStyle(color: Colors.black87),
+        cursorColor: kPurple,
+        textCapitalization: TextCapitalization.sentences,
+        maxLines: 5,
+        // controller: _aboutMeContoller,
+        validator: (value) {
+          return null;
+        },
+        keyboardType: TextInputType.multiline,
+        decoration: const InputDecoration(
+          labelStyle: TextStyle(color: Colors.black87),
+          border: InputBorder.none,
+          hintText: "Answer",
+        ),
+      ),
     );
   }
 }

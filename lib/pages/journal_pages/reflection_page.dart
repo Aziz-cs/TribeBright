@@ -6,8 +6,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tribebright/widgets/fancy_buttons.dart';
 import '../../../constants.dart';
 
-class ReflectionScreen extends StatelessWidget {
-  const ReflectionScreen({
+class ReflectionPage extends StatelessWidget {
+  const ReflectionPage({
     Key? key,
   }) : super(key: key);
 

@@ -6,8 +6,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tribebright/widgets/fancy_buttons.dart';
 import '../../../constants.dart';
 
-class GratefulScreen extends StatelessWidget {
-  const GratefulScreen({
+class GratefulPage extends StatelessWidget {
+  const GratefulPage({
     Key? key,
   }) : super(key: key);
 

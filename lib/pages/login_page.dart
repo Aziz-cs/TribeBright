@@ -11,8 +11,8 @@ import '../widgets/fancy_buttons.dart';
 import 'home_page/home_page.dart';
 import 'sign_up/signup_page.dart';
 
-class LoginScreen extends StatelessWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+class LoginPage extends StatelessWidget {
+  const LoginPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +66,7 @@ class LoginScreen extends StatelessWidget {
 
                     FancyBtn(
                       text: "Login",
-                      onPress: () => Get.off(() => const HomeScreen()),
+                      onPress: () => Get.off(() => const HomePage()),
                     ),
                     SizedBox(height: 15.h),
 
@@ -86,7 +86,7 @@ class LoginScreen extends StatelessWidget {
                               fontSize: 16.sp,
                             )),
                         GestureDetector(
-                          onTap: () => Get.to(() => const SignUpScreen()),
+                          onTap: () => Get.to(() => const SignUpPage()),
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Text("Sign Up",

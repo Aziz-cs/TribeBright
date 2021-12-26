@@ -44,7 +44,7 @@ class PlayCard extends StatelessWidget {
                     onPressed: () {
                       if (lesson.categoryName.toLowerCase().contains('sleep')) {
                       } else {
-                        Get.to(() => VideoScreen(lesson: lesson));
+                        Get.to(() => VideoPage(lesson: lesson));
                       }
                     },
                     fillColor: const Color(0xFF3d337c),

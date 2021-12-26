@@ -4,14 +4,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tribebright/widgets/back_btn.dart';
 import '../constants.dart';
 
-class DailyScreen extends StatefulWidget {
-  const DailyScreen({Key? key}) : super(key: key);
+class DailyPage extends StatefulWidget {
+  const DailyPage({Key? key}) : super(key: key);
 
   @override
-  State<DailyScreen> createState() => _DailyScreenState();
+  State<DailyPage> createState() => _DailyPageState();
 }
 
-class _DailyScreenState extends State<DailyScreen> {
+class _DailyPageState extends State<DailyPage> {
   int selectedIndex = -1;
   @override
   Widget build(BuildContext context) {

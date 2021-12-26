@@ -9,8 +9,8 @@ import '../../model/lesson.dart';
 import '../../widgets/back_btn.dart';
 import 'card_player.dart';
 
-class LessonsScreen extends StatelessWidget {
-  const LessonsScreen({
+class LessonsPage extends StatelessWidget {
+  const LessonsPage({
     Key? key,
     required this.category,
   }) : super(key: key);

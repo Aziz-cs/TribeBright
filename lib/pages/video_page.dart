@@ -10,8 +10,8 @@ import 'package:flutter_fadein/flutter_fadein.dart';
 import '../constants.dart';
 import '../widgets/back_btn.dart';
 
-class VideoScreen extends StatefulWidget {
-  const VideoScreen({
+class VideoPage extends StatefulWidget {
+  const VideoPage({
     Key? key,
     required this.lesson,
   }) : super(key: key);
@@ -19,10 +19,10 @@ class VideoScreen extends StatefulWidget {
   final Lesson lesson;
 
   @override
-  State<VideoScreen> createState() => _VideoScreenState();
+  State<VideoPage> createState() => _VideoPageState();
 }
 
-class _VideoScreenState extends State<VideoScreen> {
+class _VideoPageState extends State<VideoPage> {
   late VideoPlayerController _videoController;
   bool _visible = false;
   @override

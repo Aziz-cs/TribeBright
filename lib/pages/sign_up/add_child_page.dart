@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:tribebright/constants.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tribebright/pages/login_page.dart';
+import 'package:tribebright/pages/sign_up/q_welcome_page.dart';
 import 'package:tribebright/widgets/dropdown_menu.dart';
 import 'package:tribebright/widgets/fancy_buttons.dart';
 import 'package:tribebright/widgets/textfield.dart';
@@ -12,14 +14,14 @@ final kTitleTextStyle = TextStyle(
   fontSize: 15.sp,
 );
 
-class AddChildScreen extends StatefulWidget {
-  const AddChildScreen({Key? key}) : super(key: key);
+class AddChildPage extends StatefulWidget {
+  const AddChildPage({Key? key}) : super(key: key);
 
   @override
-  State<AddChildScreen> createState() => _AddChildScreenState();
+  State<AddChildPage> createState() => _AddChildPageState();
 }
 
-class _AddChildScreenState extends State<AddChildScreen> {
+class _AddChildPageState extends State<AddChildPage> {
   final TextEditingController _childNameController = TextEditingController();
   final TextEditingController _ageContoller = TextEditingController();
 
@@ -128,7 +130,9 @@ class _AddChildScreenState extends State<AddChildScreen> {
                             text: 'Next',
                             fillColor: kPurple,
                             textColor: Colors.white,
-                            onPress: () {},
+                            onPress: () {
+                              Get.to(() => const QwelcomePage());
+                            },
                           )
                         ],
                       ),

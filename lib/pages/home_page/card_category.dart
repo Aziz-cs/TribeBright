@@ -19,7 +19,7 @@ class CategoryCard extends StatelessWidget {
     return InkWell(
       splashColor: kDarkPurple,
       onTap: () {
-        Get.to(() => LessonsScreen(
+        Get.to(() => LessonsPage(
               category: category,
             ));
       },

@@ -7,8 +7,8 @@ import 'package:tribebright/pages/sign_up/add_child_page.dart';
 import '../../constants.dart';
 import '../../widgets/fancy_buttons.dart';
 
-class SignUpScreen extends StatelessWidget {
-  const SignUpScreen({Key? key}) : super(key: key);
+class SignUpPage extends StatelessWidget {
+  const SignUpPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -103,7 +103,7 @@ class SignUpScreen extends StatelessWidget {
                       FancyBtn(
                         text: "Sign Up",
                         onPress: () {
-                          Get.off(() => AddChildScreen());
+                          Get.off(() => AddChildPage());
                         },
                       ),
                       SizedBox(height: 8.h),

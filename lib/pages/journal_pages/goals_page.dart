@@ -5,8 +5,8 @@ import 'package:tribebright/widgets/back_btn.dart';
 
 import '../../../constants.dart';
 
-class GoalsScreen extends StatelessWidget {
-  const GoalsScreen({
+class GoalsPage extends StatelessWidget {
+  const GoalsPage({
     Key? key,
   }) : super(key: key);
 
