@@ -3,12 +3,31 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:tribebright/pages/sign_up/add_child_page.dart';
+import 'package:tribebright/utils/auth.dart.dart';
+import 'package:tribebright/widgets/textfield.dart';
 
 import '../../constants.dart';
 import '../../widgets/fancy_buttons.dart';
 
-class SignUpPage extends StatelessWidget {
-  const SignUpPage({Key? key}) : super(key: key);
+class SignUpPage extends StatefulWidget {
+  SignUpPage({Key? key}) : super(key: key);
+
+  @override
+  State<SignUpPage> createState() => _SignUpPageState();
+}
+
+class _SignUpPageState extends State<SignUpPage> {
+  final _formKey = GlobalKey<FormState>();
+
+  final TextEditingController _emailAddressContoller = TextEditingController();
+
+  final TextEditingController _passwordContoller = TextEditingController();
+
+  final TextEditingController _fullNameContoller = TextEditingController();
+
+  final TextEditingController _phoneNoContoller = TextEditingController();
+
+  bool _isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -45,117 +64,141 @@ class SignUpPage extends StatelessWidget {
                 ),
                 child: Padding(
                   padding: const EdgeInsets.all(20.0),
-                  child: Column(
-                    children: [
-                      SizedBox(height: 5.h),
-                      Image.asset(
-                        "assets/images/signup_word.png",
-                        height: 47.h,
-                      ),
-                      SizedBox(height: 12.h),
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      children: [
+                        SizedBox(height: 5.h),
+                        Image.asset(
+                          "assets/images/signup_word.png",
+                          height: 47.h,
+                        ),
+                        SizedBox(height: 12.h),
 
-                      const MyTextField(
-                        label: "Email address",
-                        suffixIcon: Icon(CupertinoIcons.mail_solid,
-                            color: Colors.white),
-                      ),
-                      SizedBox(height: 15.h),
-                      const MyTextField(
-                        label: "Password",
-                        suffixIcon: Icon(CupertinoIcons.padlock_solid,
-                            color: Colors.white),
-                        isObsecure: true,
-                      ),
-                      SizedBox(height: 15.h),
-                      const MyTextField(
-                        label: "Full name",
-                        suffixIcon: Icon(CupertinoIcons.person_fill,
-                            color: Colors.white),
-                      ),
-                      SizedBox(height: 15.h),
-                      const MyTextField(
-                        label: "Phone number",
-                        suffixIcon: Icon(CupertinoIcons.phone_fill,
-                            color: Colors.white),
-                      ),
-                      SizedBox(height: 15.h),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Flexible(
-                            child:
-                                Text("Yes!, I Agree to all terms & conditions",
-                                    style: TextStyle(
-                                      color: const Color(0XFF382563),
-                                      fontSize: 14.sp,
-                                    )),
+                        MyTextField(
+                          controller: _emailAddressContoller,
+                          label: "Email address",
+                          suffixIcon: const Icon(
+                            CupertinoIcons.mail_solid,
+                            color: Colors.white,
                           ),
-                          Checkbox(
-                            value: true,
-                            onChanged: (_) {},
-                            activeColor: kDarkPurple,
-                          ),
-                        ],
-                      ),
-                      // const Spacer(),
-                      SizedBox(height: 5.h),
+                          validator: (input) {
+                            if (input!.isEmpty) {
+                              return 'This field can not be empty';
+                            }
+                            if (!GetUtils.isEmail(input)) {
+                              return 'Please type a valid email';
+                            }
+                          },
+                        ),
+                        SizedBox(height: 15.h),
+                        MyTextField(
+                          controller: _passwordContoller,
+                          label: "Password",
+                          suffixIcon: const Icon(CupertinoIcons.padlock_solid,
+                              color: Colors.white),
+                          isObsecure: true,
+                          validator: (input) {
+                            if (input!.isEmpty) {
+                              return 'This field can not be empty';
+                            }
+                            if (input.length < 6) {
+                              return 'Password is too short';
+                            }
+                          },
+                        ),
+                        SizedBox(height: 15.h),
+                        MyTextField(
+                          controller: _fullNameContoller,
+                          label: "Full name",
+                          suffixIcon: const Icon(CupertinoIcons.person_fill,
+                              color: Colors.white),
+                          validator: (input) {
+                            if (input!.isEmpty) {
+                              return 'This field can not be empty';
+                            }
+                            if (input.length < 2) {
+                              return 'Name is too short';
+                            }
+                          },
+                        ),
+                        SizedBox(height: 15.h),
+                        MyTextField(
+                          controller: _phoneNoContoller,
+                          label: "Phone number",
+                          suffixIcon: const Icon(CupertinoIcons.phone_fill,
+                              color: Colors.white),
+                          validator: (input) {
+                            if (input!.isEmpty) {
+                              return 'This field can not be empty';
+                            }
+                            if (!GetUtils.isPhoneNumber(input)) {
+                              return 'Please enter a valid phone number';
+                            }
+                          },
+                        ),
+                        SizedBox(height: 15.h),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Flexible(
+                              child: Text(
+                                  "Yes!, I Agree to all terms & conditions",
+                                  style: TextStyle(
+                                    color: const Color(0XFF382563),
+                                    fontSize: 14.sp,
+                                  )),
+                            ),
+                            Checkbox(
+                              value: true,
+                              onChanged: (_) {},
+                              activeColor: kDarkPurple,
+                            ),
+                          ],
+                        ),
+                        // const Spacer(),
+                        SizedBox(height: 5.h),
 
-                      FancyBtn(
-                        text: "Sign Up",
-                        onPress: () {
-                          Get.off(() => AddChildPage());
-                        },
-                      ),
-                      SizedBox(height: 8.h),
-                    ],
+                        _isLoading
+                            ? const Center(
+                                child: CircularProgressIndicator(
+                                  color: kDarkPurple,
+                                ),
+                              )
+                            : FancyBtn(
+                                text: "Sign Up",
+                                onPress: () async {
+                                  if (!_formKey.currentState!.validate()) {
+                                    return;
+                                  }
+                                  setState(() {
+                                    _isLoading = true;
+                                  });
+                                  await Auth.signUp(
+                                    email: _emailAddressContoller.text.trim(),
+                                    password: _passwordContoller.text.trim(),
+                                    name: _fullNameContoller.text.trim(),
+                                    phoneNo: _phoneNoContoller.text.trim(),
+                                  ).then((value) {
+                                    setState(() {
+                                      _isLoading = false;
+                                    });
+                                  }).catchError((e) {
+                                    print('error in signing up: $e');
+                                    setState(() {
+                                      _isLoading = false;
+                                    });
+                                  });
+                                },
+                              ),
+                        SizedBox(height: 8.h),
+                      ],
+                    ),
                   ),
                 ),
               ),
             ),
           ],
         ));
-  }
-}
-
-class MyTextField extends StatelessWidget {
-  const MyTextField({
-    Key? key,
-    required this.label,
-    this.preIcon = const SizedBox(),
-    this.suffixIcon = const SizedBox(),
-    this.isObsecure = false,
-  }) : super(key: key);
-
-  final String label;
-  final Widget preIcon;
-  final Widget suffixIcon;
-  final bool isObsecure;
-
-  @override
-  Widget build(BuildContext context) {
-    return TextField(
-      style: const TextStyle(color: Colors.white),
-      decoration: InputDecoration(
-        labelText: label,
-        labelStyle: const TextStyle(color: Colors.white),
-        fillColor: Colors.white,
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(25.0),
-          borderSide: const BorderSide(
-            color: Colors.white,
-          ),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(25.0),
-          borderSide: const BorderSide(
-            color: Colors.white,
-            width: 1.0,
-          ),
-        ),
-        suffixIcon: suffixIcon,
-        prefixIcon: preIcon,
-      ),
-      obscureText: isObsecure,
-    );
   }
 }

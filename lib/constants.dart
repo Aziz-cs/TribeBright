@@ -1,5 +1,12 @@
+// ignore_for_file: non_constant_identifier_names
+
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'model/lesson.dart';
+
+final UserID = FirebaseAuth.instance.currentUser!.uid;
+final DB = FirebaseDatabase.instance.reference();
 
 const kPurple = Color(0xFFA075D1);
 const kDarkPurple = Color(0xFF4D4290);
@@ -53,6 +60,9 @@ Divider aDivider() {
     // color: Color(0xFFe0e2e5),
   );
 }
+
+const kMsgSomethingWrong = "Somethings went wrong, please try again later";
+const kMsgInternetDown = "Please check your internet connection and try again";
 
 // List<Lesson> mediationsLessons = [
 //   Lesson(title: 'Factory of Happiniess', order: 1, videoURL: ''),

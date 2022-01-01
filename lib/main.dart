@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:tribebright/pages/login_page.dart';
-import 'utils/firebase_api.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

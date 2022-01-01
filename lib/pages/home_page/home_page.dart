@@ -5,7 +5,7 @@ import 'package:tribebright/pages/journal_pages/journal_page.dart';
 import 'package:tribebright/pages/lessons_pages/lessons_page.dart';
 
 import '../../constants.dart';
-import '../../utils/firebase_api.dart';
+import '../../utils/database.dart';
 import '../../widgets/menu_drawer.dart';
 import '../daily_page.dart';
 import 'card_category.dart';
@@ -93,7 +93,7 @@ class _HomePageState extends State<HomePage> {
                   "Sleep",
                   "sound_ic",
                   () => Get.to(
-                    () => LessonsPage(category: FirebaseAPI.sleepCategory),
+                    () => LessonsPage(category: Database.sleepCategory),
                   ),
                 ),
               ],
@@ -214,7 +214,7 @@ class _HomePageState extends State<HomePage> {
 
   List<Widget> getCategoriesItems() {
     List<Widget> categoryCards = [];
-    for (var categoryItem in FirebaseAPI.categories) {
+    for (var categoryItem in Database.categories) {
       categoryCards.add(CategoryCard(category: categoryItem));
     }
 

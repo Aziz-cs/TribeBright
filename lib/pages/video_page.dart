@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:tribebright/model/lesson.dart';
-import 'package:tribebright/utils/firebase_api.dart';
+import 'package:tribebright/utils/database.dart';
 import 'package:video_player/video_player.dart';
 import 'package:flutter_fadein/flutter_fadein.dart';
 
@@ -181,10 +181,8 @@ class _VideoPageState extends State<VideoPage> {
                     IconButton(
                         onPressed: () {
                           if (widget.lesson.lessonIndex <
-                              FirebaseAPI
-                                      .categories[widget.lesson.categoryIndex]
-                                      .videos
-                                      .length -
+                              Database.categories[widget.lesson.categoryIndex]
+                                      .videos.length -
                                   1) {
                             setState(() {
                               widget.lesson.lessonIndex++;
@@ -205,7 +203,7 @@ class _VideoPageState extends State<VideoPage> {
     if (lesson.categoryName.toLowerCase().contains('sleep')) {
       return lesson.categoryName;
     }
-    return FirebaseAPI.categories[lesson.categoryIndex].name;
+    return Database.categories[lesson.categoryIndex].name;
   }
 
   String getVideoTitle(Lesson lesson) {
@@ -213,7 +211,7 @@ class _VideoPageState extends State<VideoPage> {
       return lesson.title;
     }
     Map lessonMap =
-        FirebaseAPI.categories[lesson.categoryIndex].videos[lesson.lessonIndex];
+        Database.categories[lesson.categoryIndex].videos[lesson.lessonIndex];
     return lessonMap['title'];
   }
 }

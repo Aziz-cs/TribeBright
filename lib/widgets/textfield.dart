@@ -67,6 +67,7 @@ class CustomTextField extends StatelessWidget {
   }
 }
 
+//Questions text fields
 class MyTextFormField extends StatelessWidget {
   const MyTextFormField({
     Key? key,
@@ -100,6 +101,69 @@ class MyTextFormField extends StatelessWidget {
           hintText: "Answer",
         ),
       ),
+    );
+  }
+}
+
+class MyTextField extends StatelessWidget {
+  const MyTextField({
+    Key? key,
+    required this.label,
+    required this.controller,
+    required this.validator,
+    this.preIcon = const SizedBox(),
+    this.suffixIcon = const SizedBox(),
+    this.isObsecure = false,
+  }) : super(key: key);
+
+  final String label;
+  final Widget preIcon;
+  final Widget suffixIcon;
+  final bool isObsecure;
+  final TextEditingController controller;
+  final String? Function(String?) validator;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      style: const TextStyle(color: Colors.white),
+      controller: controller,
+      validator: validator,
+      decoration: InputDecoration(
+        labelText: label,
+        labelStyle: const TextStyle(color: Colors.white),
+        fillColor: Colors.white,
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(25.0),
+          borderSide: const BorderSide(
+            color: Colors.white,
+          ),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(25.0),
+          borderSide: const BorderSide(
+            color: Colors.white,
+            width: 1.0,
+          ),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(25.0),
+          borderSide: const BorderSide(
+            color: Colors.red,
+            width: 1.0,
+          ),
+        ),
+        focusedErrorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(25.0),
+          borderSide: const BorderSide(
+            color: Colors.red,
+            width: 1.0,
+          ),
+        ),
+        suffixIcon: suffixIcon,
+        prefixIcon: preIcon,
+      ),
+      obscureText: isObsecure,
     );
   }
 }

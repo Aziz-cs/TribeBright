@@ -1,16 +1,14 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import '../constants.dart';
 import '../model/category.dart';
 import '../model/lesson.dart';
 
-class FirebaseAPI {
+class Database {
   static List<Category> categories = [];
   static late Category sleepCategory;
   static void getCategories() async {
-    FirebaseDatabase.instance
-        .reference()
-        .child('categories')
-        .once()
-        .then((categoriesDB) {
+    DB.child('categories').once().then((categoriesDB) {
       // print(categoriesDB.value);
       print("key: ${categoriesDB.key ?? "0"}");
 
@@ -30,11 +28,7 @@ class FirebaseAPI {
   }
 
   static void getSleepSounds() async {
-    FirebaseDatabase.instance
-        .reference()
-        .child('sleepSounds')
-        .once()
-        .then((categoriesDB) {
+    DB.child('sleepSounds').once().then((categoriesDB) {
       // print(categoriesDB.value);
       sleepCategory = Category(
         name: categoriesDB.value['name'] ?? 'backup name',
@@ -46,5 +40,29 @@ class FirebaseAPI {
 
       print("sleep category: ${sleepCategory.toString()}");
     });
+  }
+
+  static Future<void> registerParent({
+    required String name,
+    required String phoneNo,
+  }) async {
+    Map userData = {
+      'name': name,
+      'phoneNo': phoneNo,
+    };
+    DB.child('Users').child(UserID).set(userData);
+  }
+
+  static Future<void> addChildToParent({
+    required String childName,
+    required int age,
+    required bool isMale,
+  }) async {
+    Map childData = {
+      'childName': childName,
+      'age': age,
+      'isMale': isMale,
+    };
+    DB.child('Users').child(UserID).child('childs').push().set(childData);
   }
 }
