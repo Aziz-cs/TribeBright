@@ -1,5 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:tribebright/model/parent.dart';
+import 'package:tribebright/utils/helper.dart';
 import '../constants.dart';
 import '../model/category.dart';
 import '../model/lesson.dart';
@@ -50,7 +52,7 @@ class Database {
       'name': name,
       'phoneNo': phoneNo,
     };
-    DB.child('Users').child(UserID).set(userData);
+    DB.child('Parents').child(ParentID).set(userData);
   }
 
   static Future<void> addChildToParent({
@@ -63,6 +65,15 @@ class Database {
       'age': age,
       'isMale': isMale,
     };
-    DB.child('Users').child(UserID).child('childs').push().set(childData);
+    DB.child('Parents').child(ParentID).child('children').push().set(childData);
+  }
+
+  static void setParentValues() async {
+    DB.child('Parents').child(ParentID).onValue.listen((event) {
+      print(event.snapshot.value);
+      Helper.userParent =
+          Parent.fromRTDB(event.snapshot.value as Map<dynamic, dynamic>);
+      print(Helper.userParent.toString());
+    });
   }
 }

@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:tribebright/pages/sign_up/add_child_page.dart';
+import 'package:tribebright/utils/helper.dart';
 
 import '../constants.dart';
 
@@ -37,7 +40,7 @@ class MenuDrawer extends StatelessWidget {
                     Image.asset("assets/images/cat_mindfulness.png"),
                     SizedBox(height: 10.h),
                     Text(
-                      "Laura Dovalina 🌷",
+                      "${Helper.userParent!.name} 🌷",
                       style: TextStyle(
                         fontSize: 25.sp,
                         color: Colors.black54,
@@ -47,18 +50,46 @@ class MenuDrawer extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: 20.h),
-                    menuListItem("Settings", CupertinoIcons.settings_solid),
-                    aDivider(),
-                    menuListItem("Contact Us", CupertinoIcons.paperplane_fill),
-                    aDivider(),
-                    menuListItem("Terms & Conditions",
-                        CupertinoIcons.doc_checkmark_fill),
+                    parentChildren(),
+                    menuListItem(
+                      itemName: "Settings",
+                      icon: CupertinoIcons.settings_solid,
+                      onPress: () {},
+                    ),
                     aDivider(),
                     menuListItem(
-                        "Privacy Policy", CupertinoIcons.square_favorites_fill),
+                      itemName: "Add new child",
+                      icon: CupertinoIcons.person_badge_plus,
+                      onPress: () {
+                        Navigator.pop(context);
+                        Get.to(() => const AddChildPage());
+                      },
+                    ),
                     aDivider(),
                     menuListItem(
-                        "Log Out", CupertinoIcons.arrow_left_circle_fill),
+                      itemName: "Contact us",
+                      icon: CupertinoIcons.paperplane_fill,
+                      onPress: () {},
+                    ),
+                    aDivider(),
+                    menuListItem(
+                      itemName: "Terms & Conditions",
+                      icon: CupertinoIcons.doc_checkmark_fill,
+                      onPress: () {},
+                    ),
+
+                    aDivider(),
+                    menuListItem(
+                      itemName: "Privacy Policy",
+                      icon: CupertinoIcons.square_favorites_fill,
+                      onPress: () {},
+                    ),
+                    aDivider(),
+                    menuListItem(
+                      itemName: "Log out",
+                      icon: CupertinoIcons.arrow_left_circle_fill,
+                      onPress: () {},
+                    ),
                     // aDivider(),
                     // termsMenuItem(),
                   ],
@@ -88,7 +119,10 @@ class MenuDrawer extends StatelessWidget {
   //   );
   // }
 
-  ListTile menuListItem(String itemName, IconData icon) {
+  ListTile menuListItem(
+      {required String itemName,
+      required IconData icon,
+      required VoidCallback onPress}) {
     return ListTile(
       dense: true,
       leading: Icon(icon),
@@ -99,8 +133,8 @@ class MenuDrawer extends StatelessWidget {
           fontSize: 16.sp,
         ),
       ),
-      contentPadding: EdgeInsets.symmetric(vertical: 0.0),
-      onTap: () => print("menu item pressed"),
+      contentPadding: const EdgeInsets.symmetric(vertical: 0.0),
+      onTap: onPress,
     );
   }
 
@@ -111,8 +145,55 @@ class MenuDrawer extends StatelessWidget {
         "Terms & Conditions",
         style: TextStyle(fontSize: 12.sp, color: Color(0xFFbfc4c9)),
       ),
-      contentPadding: EdgeInsets.symmetric(vertical: 0.0),
+      contentPadding: const EdgeInsets.symmetric(vertical: 0.0),
       onTap: () {},
+    );
+  }
+
+  Theme parentChildren() {
+    return Theme(
+      data: ThemeData().copyWith(dividerColor: Colors.transparent),
+      child: ExpansionTile(
+          tilePadding: EdgeInsets.zero,
+          leading: const Icon(
+            CupertinoIcons.person_2_fill,
+            color: Colors.black54,
+          ),
+          // trailing: const Icon(
+          //   CupertinoIcons.arrow_down_circle_fill,
+          //   color: kPurple,
+          // ),
+          title: Text(
+            "My Children",
+            style: TextStyle(
+              fontSize: 16.sp,
+              color: Colors.black87,
+            ),
+          ),
+          // textColor: Colors.white,
+          // collapsedTextColor: const Color(0xFF5e6d7c),
+          // collapsedIconColor: kDarkPurple,
+          // iconColor: kDarkPurple,
+          children: List.generate(
+            Helper.userParent!.children.length,
+            (index) =>
+                buildChildItem(Helper.userParent!.children[index].childName),
+          )),
+    );
+  }
+
+  Padding buildChildItem(String childName) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 15),
+      child: Column(
+        children: [
+          menuListItem(
+              itemName: childName,
+              icon: CupertinoIcons.person_fill,
+              onPress: () {}),
+          aDivider(),
+        ],
+      ),
     );
   }
 }

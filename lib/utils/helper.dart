@@ -3,8 +3,10 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:tribebright/constants.dart';
+import 'package:tribebright/model/parent.dart';
 
 class Helper {
+  static Parent? userParent;
   //check internet connection
   static Future<bool> isConnected() async {
     try {

@@ -30,6 +30,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     Database.getCategories();
     Database.getSleepSounds();
+    Database.setParentValues();
     return Scaffold(
         backgroundColor: Colors.white,
         body: Form(
