@@ -1,13 +1,24 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:tribebright/pages/login_page.dart';
 import 'package:tribebright/pages/sign_up/add_child_page.dart';
 import 'package:tribebright/utils/helper.dart';
+import 'package:tribebright/utils/sharedpref.dart';
 
 import '../constants.dart';
 
-class MenuDrawer extends StatelessWidget {
+class MenuDrawer extends StatefulWidget {
+  const MenuDrawer({Key? key}) : super(key: key);
+
+  @override
+  State<MenuDrawer> createState() => _MenuDrawerState();
+}
+
+class _MenuDrawerState extends State<MenuDrawer> {
+  bool _isChildrenOpened = false;
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -40,7 +51,7 @@ class MenuDrawer extends StatelessWidget {
                     Image.asset("assets/images/cat_mindfulness.png"),
                     SizedBox(height: 10.h),
                     Text(
-                      "${Helper.userParent!.name} 🌷",
+                      "${Helper.userParent?.name ?? ''} 🌷",
                       style: TextStyle(
                         fontSize: 25.sp,
                         color: Colors.black54,
@@ -50,13 +61,13 @@ class MenuDrawer extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: 20.h),
+                    // menuListItem(
+                    //   itemName: "Settings",
+                    //   icon: CupertinoIcons.settings_solid,
+                    //   onPress: () {},
+                    // ),
+                    // aDivider(),
                     parentChildren(),
-                    menuListItem(
-                      itemName: "Settings",
-                      icon: CupertinoIcons.settings_solid,
-                      onPress: () {},
-                    ),
-                    aDivider(),
                     menuListItem(
                       itemName: "Add new child",
                       icon: CupertinoIcons.person_badge_plus,
@@ -88,7 +99,11 @@ class MenuDrawer extends StatelessWidget {
                     menuListItem(
                       itemName: "Log out",
                       icon: CupertinoIcons.arrow_left_circle_fill,
-                      onPress: () {},
+                      onPress: () async {
+                        await FirebaseAuth.instance.signOut();
+                        SharedPrefs.clearData();
+                        Get.offAll(() => const LoginPage());
+                      },
                     ),
                     // aDivider(),
                     // termsMenuItem(),
@@ -103,22 +118,6 @@ class MenuDrawer extends StatelessWidget {
   }
 
   // Container buildProfileAvatar() {
-  //   return Container(
-  //     child: CircleAvatar(
-  //       backgroundColor: kPurplE,
-  //       radius: 80,
-  //       backgroundImage: Image.asset("assets/images/profile_avatar.jpg").image,
-  //     ),
-  //     decoration: BoxDecoration(
-  //       shape: BoxShape.circle,
-  //       border: new Border.all(
-  //         color: kPurplE,
-  //         width: 4.0,
-  //       ),
-  //     ),
-  //   );
-  // }
-
   ListTile menuListItem(
       {required String itemName,
       required IconData icon,
@@ -152,9 +151,17 @@ class MenuDrawer extends StatelessWidget {
 
   Theme parentChildren() {
     return Theme(
-      data: ThemeData().copyWith(dividerColor: Colors.transparent),
+      data: ThemeData().copyWith(
+        dividerColor: Colors.transparent,
+      ),
       child: ExpansionTile(
           tilePadding: EdgeInsets.zero,
+          trailing: Icon(
+            _isChildrenOpened
+                ? CupertinoIcons.arrow_up_circle_fill
+                : CupertinoIcons.arrow_down_circle_fill,
+            color: kPurple,
+          ),
           leading: const Icon(
             CupertinoIcons.person_2_fill,
             color: Colors.black54,
@@ -163,6 +170,12 @@ class MenuDrawer extends StatelessWidget {
           //   CupertinoIcons.arrow_down_circle_fill,
           //   color: kPurple,
           // ),
+          onExpansionChanged: (isOpened) {
+            print(isOpened);
+            setState(() {
+              _isChildrenOpened = isOpened;
+            });
+          },
           title: Text(
             "My Children",
             style: TextStyle(

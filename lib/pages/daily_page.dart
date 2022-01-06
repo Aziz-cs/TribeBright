@@ -1,8 +1,23 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tribebright/utils/helper.dart';
 import 'package:tribebright/widgets/back_btn.dart';
+import 'package:tribebright/widgets/fancy_buttons.dart';
 import '../constants.dart';
+
+List moods = [
+  'Happy',
+  'Sad',
+  'Angry',
+  'Silly',
+  'Scared',
+  'Confused',
+  'Worried',
+  'Surprised',
+  'Anxious',
+  'Calm',
+];
 
 class DailyPage extends StatefulWidget {
   const DailyPage({Key? key}) : super(key: key);
@@ -77,9 +92,9 @@ class _DailyPageState extends State<DailyPage> {
                         ),
                       ),
                       SizedBox(
-                        height: 400,
+                        height: 330.h,
                         child: GridView.builder(
-                          itemCount: 10,
+                          itemCount: moods.length,
                           gridDelegate:
                               const SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 4,
@@ -94,6 +109,39 @@ class _DailyPageState extends State<DailyPage> {
                                 });
                           },
                         ),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.all(20),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: TextField(
+                          cursorColor: kDarkPurple,
+                          style: const TextStyle(color: kDarkPurple),
+                          keyboardType: TextInputType.multiline,
+                          maxLines: 6,
+                          decoration: InputDecoration(
+                            hintText: 'What is making you feel this way?',
+                            hintStyle: TextStyle(color: Colors.grey.shade600),
+                            border: InputBorder.none,
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 20.h),
+                      RaisedGradientButton(
+                        child: Text(
+                          "Submit",
+                          style: TextStyle(fontSize: 15.sp),
+                        ),
+                        gradient: kGradBtn,
+                        onPressed: () {
+                          Helper.showBottomSheet(
+                            context,
+                            title: "Good job!",
+                            message: "Daily Check-In Complete",
+                          );
+                        },
                       ),
                     ],
                   ),
@@ -110,6 +158,7 @@ class _DailyPageState extends State<DailyPage> {
     required int index,
     required VoidCallback onPress,
   }) {
+    print(moods[index]);
     return SizedBox(
       height: 50.h,
       width: 50.w,
@@ -125,8 +174,25 @@ class _DailyPageState extends State<DailyPage> {
             ),
           ),
         ),
-        child: Image.asset(
-          'assets/images/em_happy.png',
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(
+              'assets/images/${moods[index]}.png',
+            ),
+            SizedBox(
+              height: 2.h,
+            ),
+            FittedBox(
+              fit: BoxFit.fitWidth,
+              child: Text(
+                moods[index],
+                // style: TextStyle(
+                //   fontSize: 10.sp,
+                // ),
+              ),
+            ),
+          ],
         ),
         onPressed: onPress,
       ),

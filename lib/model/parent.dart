@@ -13,9 +13,9 @@ class Parent {
 
   factory Parent.fromRTDB(Map<dynamic, dynamic> data) {
     return Parent(
-      name: data['name'],
-      phoneNumber: data['phoneNo'],
-      children: getParentsChildren(data['children']),
+      name: data['name'] ?? '',
+      phoneNumber: data['phoneNo'] ?? '',
+      children: getParentsChildren(data['children'] ?? {}),
     );
   }
 
@@ -25,9 +25,9 @@ class Parent {
   }
 }
 
-List<Child> getParentsChildren(Map childrenMap) {
+List<Child> getParentsChildren(Map data) {
   List<Child> childrenList = [];
-  childrenMap.forEach((key, value) {
+  data.forEach((key, value) {
     childrenList.add(Child.fromRTDB(value));
   });
   return childrenList;

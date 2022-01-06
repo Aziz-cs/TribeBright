@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
@@ -28,10 +29,9 @@ class _LoginPageState extends State<LoginPage> {
   bool _isLoading = false;
   @override
   Widget build(BuildContext context) {
-    Database.getCategories();
-    Database.getSleepSounds();
-    Database.setParentValues();
+    print(Helper.userParent.toString());
     return Scaffold(
+        resizeToAvoidBottomInset: false,
         backgroundColor: Colors.white,
         body: Form(
           key: _formKey,

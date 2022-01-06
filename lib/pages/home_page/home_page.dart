@@ -1,8 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:tribebright/pages/journal_pages/journal_page.dart';
 import 'package:tribebright/pages/lessons_pages/lessons_page.dart';
+import 'package:tribebright/utils/helper.dart';
 
 import '../../constants.dart';
 import '../../utils/database.dart';
@@ -23,7 +25,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    print(ParentID);
+    // FirebaseAuth.instance.signOut();
     return Scaffold(
       key: _key,
       drawer: MenuDrawer(),
@@ -59,9 +61,9 @@ class _HomePageState extends State<HomePage> {
                         Padding(
                           padding: const EdgeInsets.only(left: 12),
                           child: Text(
-                            "Laura",
+                            Helper.userParent!.name,
                             style: TextStyle(
-                              fontSize: 34.sp,
+                              fontSize: 27.sp,
                               color: Colors.white,
                               height: 0.7,
                               // fontWeight: FontWeight.bold,

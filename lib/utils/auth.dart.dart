@@ -17,12 +17,16 @@ class Auth {
     try {
       await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password)
-          .then((value) {
+          .then((value) async {
         Database.registerParent(name: name, phoneNo: phoneNo);
+        // ParentID = FirebaseAuth.instance.currentUser!.uid;
+        Database.setParentValues();
+        await Database.getCategories();
+        await Database.getSleepSounds();
+      }).then((value) {
+        Helper.showToast("Congratulations, Account has been registered!");
+        Get.off(() => const AddChildPage());
       });
-      Helper.showToast("Congratulations, Account has been registered!");
-
-      Get.off(() => const AddChildPage());
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         Helper.showToast("That's a weak password, please make it stronger");
@@ -41,7 +45,11 @@ class Auth {
     try {
       await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password)
-          .then((value) {
+          .then((value) async {
+        Database.setParentValues();
+
+        await Database.getCategories();
+        await Database.getSleepSounds();
         Get.off(() => const HomePage());
         Helper.showToast('Welcome back!');
       });
@@ -57,5 +65,9 @@ class Auth {
         Helper.showToast(kMsgSomethingWrong);
       }
     }
+  }
+
+  static bool isLoggedIn() {
+    return FirebaseAuth.instance.currentUser?.uid != null;
   }
 }

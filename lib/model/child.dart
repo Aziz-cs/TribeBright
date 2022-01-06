@@ -1,10 +1,12 @@
 class Child {
   String childName;
+  String childID;
   int age;
   bool isMale;
 
   Child({
     required this.childName,
+    required this.childID,
     required this.age,
     required this.isMale,
   });
@@ -12,6 +14,7 @@ class Child {
   factory Child.fromRTDB(Map<dynamic, dynamic> data) {
     return Child(
       childName: data['childName'],
+      childID: data['childID'],
       age: data['age'],
       isMale: data['isMale'],
     );

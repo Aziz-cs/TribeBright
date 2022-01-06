@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tribebright/constants.dart';
 
 class SharedPrefs {
   static SharedPreferences? _sharedPrefs;
@@ -6,7 +8,7 @@ class SharedPrefs {
 // SharedPreferences Keys
   static const String keyUsername = "userName";
   static const String keyIsChild = "isChild";
-  static const String keyCurrentChildKey = "currentChildKey";
+  static const String keyCurrentUserKey = "currentUserKey";
 
   init() async {
     // ignore: prefer_conditional_assignment
@@ -16,16 +18,17 @@ class SharedPrefs {
   }
 
   String get userName => _sharedPrefs!.getString(keyUsername) ?? "";
-  String get currentChildKey =>
-      _sharedPrefs!.getString(keyCurrentChildKey) ?? "";
+  String get currentUserKey =>
+      _sharedPrefs!.getString(keyCurrentUserKey) ??
+      FirebaseAuth.instance.currentUser!.uid;
   bool get isChild => _sharedPrefs!.getBool(keyIsChild) ?? false;
 
   set userName(String value) {
     _sharedPrefs!.setString(keyUsername, value);
   }
 
-  set currentChildKey(String value) {
-    _sharedPrefs!.setString(keyCurrentChildKey, value);
+  set currentUserKey(String value) {
+    _sharedPrefs!.setString(keyCurrentUserKey, value);
   }
 
   set isChild(bool value) {
