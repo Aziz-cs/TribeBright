@@ -1,7 +1,8 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:tribebright/model/category.dart';
 import 'package:tribebright/pages/journal_pages/journal_page.dart';
 import 'package:tribebright/pages/lessons_pages/lessons_page.dart';
 import 'package:tribebright/utils/helper.dart';
@@ -10,25 +11,16 @@ import '../../constants.dart';
 import '../../utils/database.dart';
 import '../../widgets/menu_drawer.dart';
 import '../daily_page.dart';
-import 'card_category.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
-
-  @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
+class HomeTab extends StatelessWidget {
+  HomeTab({Key? key}) : super(key: key);
   final GlobalKey<ScaffoldState> _key = GlobalKey(); // Create a key
-  int _currentIndex = 0;
 
   @override
   Widget build(BuildContext context) {
-    // FirebaseAuth.instance.signOut();
     return Scaffold(
       key: _key,
-      drawer: MenuDrawer(),
+      drawer: const MenuDrawer(),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -136,26 +128,6 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: kDarkPurple,
-        selectedItemColor: kSelectedTrqwaz,
-        unselectedItemColor: Colors.white,
-        selectedFontSize: 13.sp,
-        unselectedFontSize: 11.sp,
-        currentIndex: _currentIndex,
-        type: BottomNavigationBarType.fixed,
-        onTap: (tabIndex) {
-          setState(() {
-            _currentIndex = tabIndex;
-          });
-        },
-        items: [
-          _buildNavIcon("Home", "home_ic"),
-          _buildNavIcon("Favorites", "fav_ic"),
-          _buildNavIcon("Sleep", "lessons_ic"),
-          _buildNavIcon("Parents", "parents_ic"),
-        ],
-      ),
     );
   }
 
@@ -195,26 +167,6 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  BottomNavigationBarItem _buildNavIcon(String label, String imgName) {
-    return BottomNavigationBarItem(
-      icon: Padding(
-        padding: const EdgeInsets.only(top: 6.0),
-        child: Image.asset(
-          "assets/images/$imgName.png",
-          color: const Color(0xFFD2D0CE),
-        ),
-      ),
-      activeIcon: Padding(
-        padding: const EdgeInsets.only(top: 6.0),
-        child: Image.asset(
-          "assets/images/$imgName.png",
-          color: kSelectedTrqwaz,
-        ),
-      ),
-      label: label,
-    );
-  }
-
   List<Widget> getCategoriesItems() {
     List<Widget> categoryCards = [];
     for (var categoryItem in Database.categories) {
@@ -222,5 +174,71 @@ class _HomePageState extends State<HomePage> {
     }
 
     return categoryCards;
+  }
+}
+
+class CategoryCard extends StatelessWidget {
+  const CategoryCard({
+    Key? key,
+    required this.category,
+  }) : super(key: key);
+
+  final Category category;
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      splashColor: kDarkPurple,
+      onTap: () {
+        Get.to(() => LessonsPage(
+              category: category,
+            ));
+      },
+      child: Container(
+        alignment: Alignment.center,
+        // color: kPurplE.withOpacity(0.1),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Expanded(
+              flex: 6,
+              child: CachedNetworkImage(
+                imageUrl: category.imgCategoryURL,
+                placeholder: (context, url) => const CircularProgressIndicator(
+                  color: kPurple,
+                ),
+                errorWidget: (context, url, error) => Icon(Icons.error),
+              ),
+            ),
+            SizedBox(height: 3.h),
+            Expanded(
+              flex: 1,
+              child: Column(
+                children: [
+                  Text(
+                    category.name,
+                    style: TextStyle(
+                      color: const Color(0xFF450E60),
+                      height: 0.5,
+                      fontSize: 16.sp,
+                      fontFamily: "Acme",
+                    ),
+                  ),
+                  SizedBox(
+                    height: 1.h,
+                  ),
+                  Text(
+                    "${category.videos.length} Videos",
+                    style: TextStyle(
+                      color: const Color(0xFF450E60),
+                      fontSize: 10.sp,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

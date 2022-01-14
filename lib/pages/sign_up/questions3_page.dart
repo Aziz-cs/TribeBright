@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tribebright/constants.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:tribebright/pages/home_page/home_page.dart';
+import 'package:tribebright/pages/navigator_page.dart';
 import 'package:tribebright/pages/sign_up/questions2_page.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tribebright/widgets/textfield.dart';
@@ -106,7 +106,7 @@ class _Questions3PageState extends State<Questions3Page> {
         width: 60.w,
         child: FloatingActionButton(
           backgroundColor: kPurple,
-          onPressed: () => Get.to(() => const HomePage()),
+          onPressed: () => Get.to(() => const NavigatorPage()),
           child: const Text(
             "Submit",
             style: TextStyle(fontWeight: FontWeight.bold),

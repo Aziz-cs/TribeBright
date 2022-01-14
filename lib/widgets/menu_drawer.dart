@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:tribebright/pages/login_page.dart';
+import 'package:tribebright/pages/tabs/logs_page.dart';
 import 'package:tribebright/pages/sign_up/add_child_page.dart';
 import 'package:tribebright/utils/helper.dart';
 import 'package:tribebright/utils/sharedpref.dart';
@@ -18,7 +19,7 @@ class MenuDrawer extends StatefulWidget {
 }
 
 class _MenuDrawerState extends State<MenuDrawer> {
-  bool _isChildrenOpened = false;
+  bool _isChildrenOpened = true;
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -68,6 +69,14 @@ class _MenuDrawerState extends State<MenuDrawer> {
                     // ),
                     // aDivider(),
                     parentChildren(),
+                    aDivider(),
+                    // menuListItem(
+                    //   itemName: "Logs",
+                    //   icon: CupertinoIcons.doc_on_doc_fill,
+                    //   onPress: () => Get.to(() => const LogsTab()),
+                    // ),
+                    // aDivider(),
+
                     menuListItem(
                       itemName: "Add new child",
                       icon: CupertinoIcons.person_badge_plus,
@@ -121,18 +130,28 @@ class _MenuDrawerState extends State<MenuDrawer> {
   ListTile menuListItem(
       {required String itemName,
       required IconData icon,
-      required VoidCallback onPress}) {
+      required VoidCallback onPress,
+      bool isSelectedChild = false}) {
     return ListTile(
       dense: true,
-      leading: Icon(icon),
+      leading: Icon(
+        icon,
+        color: isSelectedChild ? kDarkPurple : Colors.grey,
+      ),
       title: Text(
         itemName,
         style: TextStyle(
-          color: Colors.black87,
+          color: isSelectedChild ? kDarkPurple : Colors.black87,
           fontSize: 16.sp,
         ),
       ),
       contentPadding: const EdgeInsets.symmetric(vertical: 0.0),
+      trailing: isSelectedChild
+          ? const Icon(
+              CupertinoIcons.check_mark_circled_solid,
+              color: kDarkPurple,
+            )
+          : const SizedBox(),
       onTap: onPress,
     );
   }
@@ -155,13 +174,15 @@ class _MenuDrawerState extends State<MenuDrawer> {
         dividerColor: Colors.transparent,
       ),
       child: ExpansionTile(
+          initiallyExpanded: true,
           tilePadding: EdgeInsets.zero,
           trailing: Icon(
-            _isChildrenOpened
-                ? CupertinoIcons.arrow_up_circle_fill
-                : CupertinoIcons.arrow_down_circle_fill,
-            color: kPurple,
-          ),
+              _isChildrenOpened
+                  ? CupertinoIcons.arrow_up_circle_fill
+                  : CupertinoIcons.arrow_down_circle_fill,
+              color: Colors.black54
+              // color: Colors.purple.shade300,
+              ),
           leading: const Icon(
             CupertinoIcons.person_2_fill,
             color: Colors.black54,
@@ -189,21 +210,30 @@ class _MenuDrawerState extends State<MenuDrawer> {
           // iconColor: kDarkPurple,
           children: List.generate(
             Helper.userParent!.children.length,
-            (index) =>
-                buildChildItem(Helper.userParent!.children[index].childName),
+            (index) => buildChildItem(index),
           )),
     );
   }
 
-  Padding buildChildItem(String childName) {
+  Padding buildChildItem(int index) {
     return Padding(
       padding: const EdgeInsets.only(left: 15),
       child: Column(
         children: [
           menuListItem(
-              itemName: childName,
+              itemName: Helper.userParent!.children[index].childName,
               icon: CupertinoIcons.person_fill,
-              onPress: () {}),
+              isSelectedChild: Helper.userParent!.children[index].childID ==
+                  sharedPrefs.currentUserKey,
+              onPress: () {
+                print(Helper.userParent!.children[index].childID);
+                setState(() {
+                  sharedPrefs.currentUserKey =
+                      Helper.userParent!.children[index].childID;
+                });
+                Helper.showToast(
+                    'Current User switched to ${Helper.userParent!.children[index].childName}');
+              }),
           aDivider(),
         ],
       ),

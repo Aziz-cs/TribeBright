@@ -12,7 +12,7 @@ import 'package:tribebright/widgets/textfield.dart';
 
 import '../constants.dart';
 import '../widgets/fancy_buttons.dart';
-import 'home_page/home_page.dart';
+import 'navigator_page.dart';
 import 'sign_up/signup_page.dart';
 
 class LoginPage extends StatefulWidget {

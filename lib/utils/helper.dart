@@ -86,10 +86,19 @@ class Helper {
                   ),
                 ),
                 const Spacer(),
-                const Icon(
-                  CupertinoIcons.checkmark_alt_circle_fill,
-                  color: kDarkPurple,
-                  size: 100,
+                // const Icon(
+                //   CupertinoIcons.checkmark_alt_circle,
+                //   color: kDarkPurple,
+                //   size: 100,
+                // ),
+                const CircleAvatar(
+                  minRadius: 40,
+                  backgroundColor: kDarkPurple,
+                  child: Icon(
+                    CupertinoIcons.checkmark_alt,
+                    color: Colors.white,
+                    size: 45,
+                  ),
                 ),
                 const Spacer(),
               ],

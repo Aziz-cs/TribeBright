@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
-import 'package:tribebright/pages/home_page/home_page.dart';
+import 'package:tribebright/pages/navigator_page.dart';
 import 'package:tribebright/pages/sign_up/add_child_page.dart';
 
 import '../constants.dart';
@@ -50,7 +50,7 @@ class Auth {
 
         await Database.getCategories();
         await Database.getSleepSounds();
-        Get.off(() => const HomePage());
+        Get.off(() => const NavigatorPage());
         Helper.showToast('Welcome back!');
       });
     } on FirebaseAuthException catch (e) {

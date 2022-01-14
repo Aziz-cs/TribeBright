@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:tribebright/constants.dart';
-import 'package:tribebright/pages/home_page/home_page.dart';
+import 'package:tribebright/pages/navigator_page.dart';
 import 'package:tribebright/pages/login_page.dart';
 import 'package:tribebright/utils/auth.dart.dart';
 import 'package:tribebright/utils/database.dart';
@@ -47,7 +47,7 @@ class MyApp extends StatelessWidget {
                 displayColor: Colors.white,
               ),
         ),
-        home: Auth.isLoggedIn() ? const HomePage() : const LoginPage(),
+        home: Auth.isLoggedIn() ? const NavigatorPage() : const LoginPage(),
       ),
     );
   }
