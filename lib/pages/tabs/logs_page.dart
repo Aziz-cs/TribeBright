@@ -5,17 +5,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tribebright/constants.dart';
+import 'package:tribebright/model/journal.dart';
+import 'package:tribebright/utils/sharedpref.dart';
 import 'package:tribebright/widgets/back_btn.dart';
+import 'package:tribebright/widgets/item_journal.dart';
 
 var logTabs = const [DailyCheckInTab(), JournalTab()];
 
 class LogsTab extends StatelessWidget {
-  const LogsTab({
-    Key? key,
-    this.currentIndex = 0,
-  }) : super(key: key);
-
-  final int currentIndex;
+  const LogsTab({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +23,7 @@ class LogsTab extends StatelessWidget {
               indicator: UnderlineTabIndicator(
                   borderSide: BorderSide(color: kDarkPurple, width: 2.5)))),
       child: DefaultTabController(
-        initialIndex: currentIndex,
+        initialIndex: sharedPrefs.isLastRecordJournal ? 1 : 0,
         length: 2,
         child: Scaffold(
           appBar: AppBar(
@@ -33,6 +31,7 @@ class LogsTab extends StatelessWidget {
             //   icon: const Icon(CupertinoIcons.back),
             //   onPressed: () => Navigator.of(context).pop(),
             // ),
+            leading: const SizedBox(),
             centerTitle: true,
             title: const Text('Logs'),
             backgroundColor: kPurple,
@@ -80,8 +79,8 @@ class DailyCheckInTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Text('Daily'),
+    return Scaffold(
+      backgroundColor: kPurple.withOpacity(0.19),
     );
   }
 }
@@ -91,16 +90,26 @@ class JournalTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FirebaseAnimatedList(
-      query: FirebaseDatabase.instance
-          .reference()
-          .child('Parents')
-          .child(FirebaseAuth.instance.currentUser!.uid)
-          .child('journalLog'),
-      itemBuilder: (BuildContext context, DataSnapshot snapshot,
-          Animation<double> animation, int index) {
-        return Text('Iam item');
-      },
+    return Scaffold(
+      backgroundColor: kPurple.withOpacity(0.19),
+      body: FirebaseAnimatedList(
+        query: FirebaseDatabase.instance
+            .ref()
+            .child('Parents')
+            .child(FirebaseAuth.instance.currentUser!.uid)
+            .child('children')
+            .child(sharedPrefs.currentUserKey)
+            .child('journal'),
+        sort: ((a, b) => (b.value as Map)['timestamp']
+            .compareTo((a.value as Map)['timestamp'])),
+        itemBuilder: (BuildContext context, DataSnapshot snapshot,
+            Animation<double> animation, int index) {
+          final journalData = snapshot.value as Map;
+          return JournalItem(
+              journal: Journal.fromRTDB(journalData, snapshot.key));
+          // return Text('hi');
+        },
+      ),
     );
   }
 }

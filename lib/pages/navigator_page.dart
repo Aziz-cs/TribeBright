@@ -1,17 +1,27 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:tribebright/pages/tabs/favorites_tab.dart';
 import 'package:tribebright/pages/tabs/home_tab.dart';
 import 'package:tribebright/pages/tabs/logs_page.dart';
+import 'package:tribebright/pages/tabs/parents_tab.dart';
+import 'package:tribebright/utils/sharedpref.dart';
 
 import '../constants.dart';
 
 var tabs = [
   HomeTab(),
   const LogsTab(),
+  const FavoritesTab(),
+  const ParentsTab(),
 ];
 
 class NavigatorPage extends StatefulWidget {
-  const NavigatorPage({Key? key}) : super(key: key);
+  const NavigatorPage({
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<NavigatorPage> createState() => _NavigatorPageState();
@@ -23,8 +33,14 @@ class _NavigatorPageState extends State<NavigatorPage> {
   @override
   Widget build(BuildContext context) {
     // FirebaseAuth.instance.signOut();
+    if (Get.arguments != null && Get.arguments['index'] != -1) {
+      _currentIndex = Get.arguments['index'];
+      Get.arguments['index'] = -1;
+    }
+    print('current index: ${_currentIndex}');
     return Scaffold(
       body: tabs[_currentIndex],
+      // body: tabs[widget.currentIndex],
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: kDarkPurple,
         selectedItemColor: kSelectedTrqwaz,

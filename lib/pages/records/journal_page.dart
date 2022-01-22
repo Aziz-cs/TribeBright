@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:tribebright/pages/journal_pages/goals_page.dart';
-import 'package:tribebright/pages/journal_pages/grateful_page.dart';
-import 'package:tribebright/pages/journal_pages/reflection_page.dart';
+import 'package:tribebright/pages/records/goals_page.dart';
+import 'package:tribebright/pages/records/grateful_page.dart';
+import 'package:tribebright/pages/records/reflection_page.dart';
 import 'package:tribebright/widgets/back_btn.dart';
 import '../../../constants.dart';
 

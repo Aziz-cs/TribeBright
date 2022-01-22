@@ -5,8 +5,6 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'model/lesson.dart';
 
-final DB = FirebaseDatabase.instance.reference();
-
 const kPurple = Color(0xFFA075D1);
 const kDarkPurple = Color(0xFF4D4290);
 

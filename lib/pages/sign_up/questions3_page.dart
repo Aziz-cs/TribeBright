@@ -106,7 +106,7 @@ class _Questions3PageState extends State<Questions3Page> {
         width: 60.w,
         child: FloatingActionButton(
           backgroundColor: kPurple,
-          onPressed: () => Get.to(() => const NavigatorPage()),
+          onPressed: () => Get.to(() => NavigatorPage()),
           child: const Text(
             "Submit",
             style: TextStyle(fontWeight: FontWeight.bold),

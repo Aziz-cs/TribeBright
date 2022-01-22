@@ -181,7 +181,7 @@ class _VideoPageState extends State<VideoPage> {
                     IconButton(
                         onPressed: () {
                           if (widget.lesson.lessonIndex <
-                              Database.categories[widget.lesson.categoryIndex]
+                              DBHelper.categories[widget.lesson.categoryIndex]
                                       .videos.length -
                                   1) {
                             setState(() {
@@ -203,7 +203,7 @@ class _VideoPageState extends State<VideoPage> {
     if (lesson.categoryName.toLowerCase().contains('sleep')) {
       return lesson.categoryName;
     }
-    return Database.categories[lesson.categoryIndex].name;
+    return DBHelper.categories[lesson.categoryIndex].name;
   }
 
   String getVideoTitle(Lesson lesson) {
@@ -211,7 +211,7 @@ class _VideoPageState extends State<VideoPage> {
       return lesson.title;
     }
     Map lessonMap =
-        Database.categories[lesson.categoryIndex].videos[lesson.lessonIndex];
+        DBHelper.categories[lesson.categoryIndex].videos[lesson.lessonIndex];
     return lessonMap['title'];
   }
 }

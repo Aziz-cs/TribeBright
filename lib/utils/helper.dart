@@ -23,11 +23,14 @@ class Helper {
     return false;
   }
 
-  static void showToast(String message) {
+  static void showToast(
+    String message, {
+    ToastGravity gravity = ToastGravity.BOTTOM,
+  }) {
     Fluttertoast.showToast(
         msg: message,
         toastLength: Toast.LENGTH_LONG,
-        gravity: ToastGravity.BOTTOM,
+        gravity: gravity,
         timeInSecForIosWeb: 1,
         backgroundColor: kPurple,
         textColor: Colors.white,

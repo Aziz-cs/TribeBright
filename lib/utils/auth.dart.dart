@@ -18,11 +18,11 @@ class Auth {
       await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password)
           .then((value) async {
-        Database.registerParent(name: name, phoneNo: phoneNo);
+        DBHelper.registerParent(name: name, phoneNo: phoneNo);
         // ParentID = FirebaseAuth.instance.currentUser!.uid;
-        Database.setParentValues();
-        await Database.getCategories();
-        await Database.getSleepSounds();
+        DBHelper.setParentValues();
+        await DBHelper.getCategories();
+        await DBHelper.getSleepSounds();
       }).then((value) {
         Helper.showToast("Congratulations, Account has been registered!");
         Get.off(() => const AddChildPage());
@@ -46,11 +46,11 @@ class Auth {
       await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password)
           .then((value) async {
-        Database.setParentValues();
+        DBHelper.setParentValues();
 
-        await Database.getCategories();
-        await Database.getSleepSounds();
-        Get.off(() => const NavigatorPage());
+        await DBHelper.getCategories();
+        await DBHelper.getSleepSounds();
+        Get.off(() => NavigatorPage());
         Helper.showToast('Welcome back!');
       });
     } on FirebaseAuthException catch (e) {

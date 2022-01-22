@@ -1,17 +1,33 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/instance_manager.dart';
+import 'package:tribebright/pages/navigator_page.dart';
+import 'package:tribebright/utils/database.dart';
+import 'package:tribebright/utils/helper.dart';
+import 'package:get/get.dart';
+
+import 'package:tribebright/utils/sharedpref.dart';
 import 'package:tribebright/widgets/back_btn.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tribebright/widgets/fancy_buttons.dart';
 import '../../../constants.dart';
 
-class GratefulPage extends StatelessWidget {
+class GratefulPage extends StatefulWidget {
   const GratefulPage({
     Key? key,
   }) : super(key: key);
 
+  @override
+  State<GratefulPage> createState() => _GratefulPageState();
+}
+
+class _GratefulPageState extends State<GratefulPage> {
+  final _gratefulFormKey = GlobalKey<FormState>();
+  final _messageController = TextEditingController();
+  bool _isLoading = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -68,27 +84,65 @@ class GratefulPage extends StatelessWidget {
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(20),
                         ),
-                        child: TextField(
-                          cursorColor: kDarkPurple,
-                          style: const TextStyle(color: kDarkPurple),
-                          keyboardType: TextInputType.multiline,
-                          maxLines: 9,
-                          decoration: InputDecoration(
-                            hintText: 'What are you greatful for today?',
-                            hintStyle: TextStyle(color: Colors.grey.shade600),
-                            border: InputBorder.none,
+                        child: Form(
+                          key: _gratefulFormKey,
+                          child: TextFormField(
+                            controller: _messageController,
+                            cursorColor: kDarkPurple,
+                            style: const TextStyle(color: kDarkPurple),
+                            keyboardType: TextInputType.multiline,
+                            maxLines: 9,
+                            decoration: InputDecoration(
+                              hintText: 'What are you greatful for today?',
+                              hintStyle: TextStyle(color: Colors.grey.shade600),
+                              border: InputBorder.none,
+                            ),
+                            validator: (input) {
+                              if (input!.isEmpty) {
+                                return 'This field cannot be empty';
+                              }
+                            },
                           ),
                         ),
                       ),
                       SizedBox(height: 30.h),
-                      RaisedGradientButton(
-                        child: Text(
-                          "Submit",
-                          style: TextStyle(fontSize: 16.sp),
-                        ),
-                        gradient: kGradBtn,
-                        onPressed: () {},
-                      ),
+                      _isLoading
+                          ? const CircularProgressIndicator(color: kDarkPurple)
+                          : RaisedGradientButton(
+                              child: Text(
+                                "Submit",
+                                style: TextStyle(fontSize: 16.sp),
+                              ),
+                              gradient: kGradBtn,
+                              onPressed: () async {
+                                if (!_gratefulFormKey.currentState!
+                                    .validate()) {
+                                  return;
+                                }
+                                if (!await Helper.isConnected()) {
+                                  Helper.showToast(kMsgInternetDown);
+                                }
+                                setState(() {
+                                  _isLoading = true;
+                                });
+
+                                var record = {
+                                  'message': _messageController.text.trim(),
+                                  'category': 'Gratitude',
+                                  'timestamp': ServerValue.timestamp,
+                                };
+
+                                await DBHelper.addJournalRecord(record)
+                                    .then((_) {
+                                  setState(() {
+                                    _isLoading = false;
+                                  });
+                                  sharedPrefs.isLastRecordJournal = true;
+                                  Get.offAll(() => const NavigatorPage(),
+                                      arguments: {'index': 1});
+                                });
+                              },
+                            ),
                     ],
                   ),
                 ),

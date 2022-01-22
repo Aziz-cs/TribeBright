@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tribebright/utils/helper.dart';
 import 'package:tribebright/widgets/back_btn.dart';
 import 'package:tribebright/widgets/fancy_buttons.dart';
-import '../constants.dart';
+import '../../constants.dart';
 
 List moods = [
   'Happy',

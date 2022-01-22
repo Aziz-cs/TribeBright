@@ -174,7 +174,7 @@ class _AddChildPageState extends State<AddChildPage> {
                                       setState(() {
                                         _isLoading = true;
                                       });
-                                      await Database.addChildToParent(
+                                      await DBHelper.addChildToParent(
                                               childName: _childNameController
                                                   .text
                                                   .trim(),

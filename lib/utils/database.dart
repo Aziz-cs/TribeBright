@@ -1,20 +1,25 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:tribebright/model/parent.dart';
 import 'package:tribebright/utils/helper.dart';
-import '../constants.dart';
-import '../model/category.dart';
-import '../model/lesson.dart';
+import 'package:tribebright/utils/sharedpref.dart';
 
-class Database {
+import '../model/category.dart';
+
+class DBHelper {
   static List<Category> categories = [];
   static late Category sleepCategory;
   static Future<void> getCategories() async {
-    await DB.child('categories').once().then((categoriesDB) {
+    await FirebaseDatabase.instance
+        .ref()
+        .child('categories')
+        .once()
+        .then((categoriesDB) {
       // print(categoriesDB.value);
-      print("key: ${categoriesDB.key ?? "0"}");
+      // print("key: ${categoriesDB.key ?? "0"}");
 
-      List categoriesValue = categoriesDB.value;
+      List categoriesValue = categoriesDB.snapshot.value as List;
       int index = 0;
       for (var element in categoriesValue) {
         Category category = Category(
@@ -30,14 +35,18 @@ class Database {
   }
 
   static Future<void> getSleepSounds() async {
-    await DB.child('sleepSounds').once().then((categoriesDB) {
+    await FirebaseDatabase.instance
+        .ref()
+        .child('sleepSounds')
+        .once()
+        .then((categoriesDB) {
       // print(categoriesDB.value);
+      Map map = categoriesDB.snapshot.value as Map;
       sleepCategory = Category(
-        name: categoriesDB.value['name'] ?? 'backup name',
+        name: map['name'] ?? 'backup name',
         imgCategoryURL: 'none',
-        imgCategoryBigURL:
-            categoriesDB.value['imgCategoryBigURL'] ?? 'backup img',
-        videos: categoriesDB.value['sounds'],
+        imgCategoryBigURL: map['imgCategoryBigURL'] ?? 'backup img',
+        videos: map['sounds'],
       );
 
       print("sleep category: ${sleepCategory.toString()}");
@@ -52,7 +61,8 @@ class Database {
       'name': name,
       'phoneNo': phoneNo,
     };
-    DB
+    FirebaseDatabase.instance
+        .ref()
         .child('Parents')
         .child(FirebaseAuth.instance.currentUser!.uid)
         .set(userData);
@@ -63,7 +73,8 @@ class Database {
     required int age,
     required bool isMale,
   }) async {
-    var childRef = DB
+    var childRef = FirebaseDatabase.instance
+        .ref()
         .child('Parents')
         .child(FirebaseAuth.instance.currentUser!.uid)
         .child('children')
@@ -76,16 +87,18 @@ class Database {
       'childID': childRef.key,
     };
 
-    DB
+    FirebaseDatabase.instance
+        .ref()
         .child('Parents')
         .child(FirebaseAuth.instance.currentUser!.uid)
         .child('children')
-        .child(childRef.key)
+        .child(childRef.key ?? '')
         .set(childData);
   }
 
   static void setParentValues() async {
-    DB
+    FirebaseDatabase.instance
+        .ref()
         .child('Parents')
         .child(FirebaseAuth.instance.currentUser!.uid)
         .onValue
@@ -97,5 +110,22 @@ class Database {
         print(Helper.userParent.toString());
       }
     });
+  }
+
+  static Future<void> addJournalRecord(Map record) async {
+    await FirebaseDatabase.instance
+        .ref()
+        .child('Parents')
+        .child(FirebaseAuth.instance.currentUser!.uid)
+        .child('children')
+        .child(sharedPrefs.currentUserKey)
+        .child('journal')
+        .push()
+        .set(record)
+        .then((_) => Helper.showToast(
+              'Record has been added successfully!',
+              gravity: ToastGravity.CENTER,
+            ))
+        .catchError((e) => print('error on saving record: $e'));
   }
 }

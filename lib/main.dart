@@ -17,9 +17,9 @@ void main() async {
   await sharedPrefs.init();
   if (Auth.isLoggedIn()) {
     // ParentID = FirebaseAuth.instance.currentUser!.uid;
-    Database.setParentValues();
-    await Database.getCategories();
-    await Database.getSleepSounds();
+    DBHelper.setParentValues();
+    await DBHelper.getCategories();
+    await DBHelper.getSleepSounds();
   }
   runApp(const MyApp());
 }
@@ -47,7 +47,7 @@ class MyApp extends StatelessWidget {
                 displayColor: Colors.white,
               ),
         ),
-        home: Auth.isLoggedIn() ? const NavigatorPage() : const LoginPage(),
+        home: Auth.isLoggedIn() ? NavigatorPage() : const LoginPage(),
       ),
     );
   }

@@ -3,19 +3,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:tribebright/model/category.dart';
-import 'package:tribebright/pages/journal_pages/journal_page.dart';
 import 'package:tribebright/pages/lessons_pages/lessons_page.dart';
+import 'package:tribebright/pages/records/journal_page.dart';
 import 'package:tribebright/utils/helper.dart';
 
 import '../../constants.dart';
 import '../../utils/database.dart';
 import '../../widgets/menu_drawer.dart';
-import '../daily_page.dart';
+import '../records/daily_page.dart';
 
-class HomeTab extends StatelessWidget {
+class HomeTab extends StatefulWidget {
   HomeTab({Key? key}) : super(key: key);
-  final GlobalKey<ScaffoldState> _key = GlobalKey(); // Create a key
 
+  @override
+  State<HomeTab> createState() => _HomeTabState();
+}
+
+class _HomeTabState extends State<HomeTab> {
+  GlobalKey<ScaffoldState> _key = GlobalKey();
+  // Create a key
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -88,7 +94,7 @@ class HomeTab extends StatelessWidget {
                   "Sleep",
                   "sound_ic",
                   () => Get.to(
-                    () => LessonsPage(category: Database.sleepCategory),
+                    () => LessonsPage(category: DBHelper.sleepCategory),
                   ),
                 ),
               ],
@@ -169,7 +175,7 @@ class HomeTab extends StatelessWidget {
 
   List<Widget> getCategoriesItems() {
     List<Widget> categoryCards = [];
-    for (var categoryItem in Database.categories) {
+    for (var categoryItem in DBHelper.categories) {
       categoryCards.add(CategoryCard(category: categoryItem));
     }
 

@@ -9,6 +9,7 @@ class SharedPrefs {
   static const String keyUsername = "userName";
   static const String keyIsChild = "isChild";
   static const String keyCurrentUserKey = "currentUserKey";
+  static const String keyIsLastRecordJournal = "isLastRecordJournal";
 
   init() async {
     // ignore: prefer_conditional_assignment
@@ -22,6 +23,8 @@ class SharedPrefs {
       _sharedPrefs!.getString(keyCurrentUserKey) ??
       FirebaseAuth.instance.currentUser!.uid;
   bool get isChild => _sharedPrefs!.getBool(keyIsChild) ?? false;
+  bool get isLastRecordJournal =>
+      _sharedPrefs!.getBool(keyIsLastRecordJournal) ?? false;
 
   set userName(String value) {
     _sharedPrefs!.setString(keyUsername, value);
@@ -33,6 +36,10 @@ class SharedPrefs {
 
   set isChild(bool value) {
     _sharedPrefs!.setBool(keyIsChild, value);
+  }
+
+  set isLastRecordJournal(bool value) {
+    _sharedPrefs!.setBool(keyIsLastRecordJournal, value);
   }
 
   static void clearData() {
