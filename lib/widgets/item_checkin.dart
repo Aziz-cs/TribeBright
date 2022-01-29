@@ -4,37 +4,40 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tribebright/constants.dart';
+import 'package:tribebright/model/check_in.dart';
 import 'package:tribebright/model/journal.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tribebright/pages/records/daily_page.dart';
 import 'package:tribebright/utils/database.dart';
 import 'package:tribebright/utils/helper.dart';
 import 'package:tribebright/utils/sharedpref.dart';
 
-class JournalItem extends StatelessWidget {
-  const JournalItem({
+class CheckInItem extends StatelessWidget {
+  const CheckInItem({
     Key? key,
-    required this.journal,
+    required this.checkIn,
   }) : super(key: key);
 
-  final Journal journal;
+  final CheckIn checkIn;
 
   @override
   Widget build(BuildContext context) {
+    var selectedMood = checkIn.mood.obs;
     return Container(
       color: kPurple.withOpacity(0.3),
       child: Column(
         children: [
           ListTile(
             leading: Image.asset(
-              'assets/images/diary_color_ic.png',
+              'assets/images/${checkIn.mood}.png',
               height: 35.h,
             ),
             title: Text(
-              journal.message,
+              checkIn.message,
               overflow: TextOverflow.ellipsis,
               maxLines: 2,
             ),
-            subtitle: Text(journal.category),
+            subtitle: Text(checkIn.mood),
             trailing: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -53,34 +56,81 @@ class JournalItem extends StatelessWidget {
                       ),
                       onPressed: () {
                         var _editMsgController = TextEditingController();
-                        _editMsgController.text = journal.message;
+                        _editMsgController.text = checkIn.message;
                         Get.defaultDialog(
                           backgroundColor: kPurple.withOpacity(0.4),
                           title: 'Update record',
                           content: Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(8),
-                              child: Material(
-                                child: Form(
-                                  child: TextFormField(
-                                    controller: _editMsgController,
-                                    cursorColor: kDarkPurple,
-                                    style: const TextStyle(color: kDarkPurple),
-                                    keyboardType: TextInputType.multiline,
-                                    maxLines: 8,
-                                    decoration: const InputDecoration(
-                                      contentPadding: EdgeInsets.all(6),
-                                      border: InputBorder.none,
+                            child: Column(
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      'Mood:',
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 15.sp),
                                     ),
-                                    validator: (input) {
-                                      if (input!.isEmpty) {
-                                        return 'This field cannot be empty';
-                                      }
-                                    },
+                                    SizedBox(
+                                      width: 10.w,
+                                    ),
+                                    Obx(
+                                      () => DropdownButton<String>(
+                                        icon: const Icon(
+                                          CupertinoIcons.arrow_down_circle_fill,
+                                          color: kPurple,
+                                        ),
+                                        value: selectedMood.string,
+                                        focusColor: Colors.green,
+                                        style: const TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.w500),
+                                        dropdownColor: kPurple,
+                                        items: moods.map((String value) {
+                                          return DropdownMenuItem<String>(
+                                            value: value,
+                                            child: Text(
+                                              value,
+                                              style: const TextStyle(
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                          );
+                                        }).toList(),
+                                        onChanged: (valueChanged) {
+                                          selectedMood.value =
+                                              valueChanged ?? checkIn.mood;
+                                        },
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(8),
+                                  child: Material(
+                                    child: Form(
+                                      child: TextFormField(
+                                        controller: _editMsgController,
+                                        cursorColor: kDarkPurple,
+                                        style:
+                                            const TextStyle(color: kDarkPurple),
+                                        keyboardType: TextInputType.multiline,
+                                        maxLines: 8,
+                                        decoration: const InputDecoration(
+                                          contentPadding: EdgeInsets.all(6),
+                                          border: InputBorder.none,
+                                        ),
+                                        validator: (input) {
+                                          if (input!.isEmpty) {
+                                            return 'This field cannot be empty';
+                                          }
+                                        },
+                                      ),
+                                    ),
                                   ),
                                 ),
-                              ),
+                              ],
                             ),
                           ),
                           confirm: ElevatedButton(
@@ -108,10 +158,11 @@ class JournalItem extends StatelessWidget {
                                   .child(FirebaseAuth.instance.currentUser!.uid)
                                   .child(kCHILDREN)
                                   .child(sharedPrefs.currentUserKey)
-                                  .child('journal')
-                                  .child(journal.key)
+                                  .child('checkIn')
+                                  .child(checkIn.key)
                                   .update({
                                 'message': _editMsgController.text.trim(),
+                                'mood': selectedMood.string,
                               }).then((_) {
                                 Helper.showToast(
                                     'Record was updated successfully');
@@ -170,8 +221,8 @@ class JournalItem extends StatelessWidget {
                                   .child(FirebaseAuth.instance.currentUser!.uid)
                                   .child(kCHILDREN)
                                   .child(sharedPrefs.currentUserKey)
-                                  .child('journal')
-                                  .child(journal.key)
+                                  .child('checkIn')
+                                  .child(checkIn.key)
                                   .remove()
                                   .then((_) {
                                 Helper.showToast(
@@ -190,16 +241,16 @@ class JournalItem extends StatelessWidget {
                     ),
                   ],
                 ),
-                Text(journal.getFormattedDate()),
+                Text(checkIn.getFormattedDate()),
               ],
             ),
             onTap: () => Get.defaultDialog(
               backgroundColor: kPurple.withOpacity(0.4),
-              title: journal.category + ' | ' + journal.getFormattedDate(),
+              title: checkIn.mood + ' | ' + checkIn.getFormattedDate(),
               // middleText: journal.message,
               content: Row(
                 children: [
-                  Flexible(child: Text(journal.message)),
+                  Flexible(child: Text(checkIn.message)),
                 ],
               ),
               confirm: ElevatedButton(

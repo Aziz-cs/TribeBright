@@ -140,6 +140,17 @@ class _GratefulPageState extends State<GratefulPage> {
                                   sharedPrefs.isLastRecordJournal = true;
                                   Get.offAll(() => const NavigatorPage(),
                                       arguments: {'index': 1});
+                                  Future.delayed(
+                                          const Duration(milliseconds: 100))
+                                      .then(
+                                    (_) => Helper.showGetBtnSheet(
+                                      title: "Good Job!",
+                                      message:
+                                          "Record has been successfully added",
+                                      iconData: CupertinoIcons
+                                          .check_mark_circled_solid,
+                                    ),
+                                  );
                                 });
                               },
                             ),

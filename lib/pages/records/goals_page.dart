@@ -137,11 +137,14 @@ class _GoalsPageState extends State<GoalsPage> {
                       ),
                       // _buildGratefulTextField(),
                       SizedBox(height: 0.04.sh),
-                      Column(
-                        children: List.generate(
-                          goalsWidgets.length,
-                          (index) =>
-                              goalRecordWidget(goalsWidgetsController[index]),
+                      Form(
+                        key: _formKey,
+                        child: Column(
+                          children: List.generate(
+                            goalsWidgets.length,
+                            (index) =>
+                                goalRecordWidget(goalsWidgetsController[index]),
+                          ),
                         ),
                       ),
                       SizedBox(height: 10.h),
@@ -171,24 +174,26 @@ class _GoalsPageState extends State<GoalsPage> {
                           gradient: kGradBtn,
                           onPressed: () async {
                             String allGoals = '';
-                            // if (!_formKey.currentState!.validate()) {
-                            //   return;
-                            // }
+                            if (!_formKey.currentState!.validate()) {
+                              return;
+                            }
                             if (!await Helper.isConnected()) {
                               Helper.showToast(kMsgInternetDown);
                             }
-                            // setState(() {
-                            //   _isLoading = true;
-                            // });
-
-                            goalsWidgetsController.forEach((controller) {
-                              allGoals = allGoals +
-                                  '- ' +
-                                  controller.text.trim() +
-                                  '\n';
+                            setState(() {
+                              _isLoading = true;
                             });
 
-                            print(allGoals);
+                            goalsWidgetsController.forEach((controller) {
+                              // if it's one goal only, make it one line without adding new one
+                              allGoals = goalsWidgets.length == 1
+                                  ? allGoals + '- ' + controller.text.trim()
+                                  : allGoals +
+                                      '- ' +
+                                      controller.text.trim() +
+                                      '\n';
+                            });
+
                             var record = {
                               'message': allGoals,
                               'category': 'Goals',
@@ -204,6 +209,15 @@ class _GoalsPageState extends State<GoalsPage> {
                               sharedPrefs.isLastRecordJournal = true;
                               Get.offAll(() => const NavigatorPage(),
                                   arguments: {'index': 1});
+                              Future.delayed(const Duration(milliseconds: 100))
+                                  .then(
+                                (_) => Helper.showGetBtnSheet(
+                                  title: "Good Job!",
+                                  message: "Record has been successfully added",
+                                  iconData:
+                                      CupertinoIcons.check_mark_circled_solid,
+                                ),
+                              );
                             });
                           },
                         ),

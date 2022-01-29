@@ -1,12 +1,18 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tribebright/utils/database.dart';
 import 'package:tribebright/utils/helper.dart';
+import 'package:tribebright/utils/sharedpref.dart';
 import 'package:tribebright/widgets/back_btn.dart';
 import 'package:tribebright/widgets/fancy_buttons.dart';
 import '../../constants.dart';
+import '../navigator_page.dart';
 
-List moods = [
+List<String> moods = [
   'Happy',
   'Sad',
   'Angry',
@@ -27,7 +33,10 @@ class DailyPage extends StatefulWidget {
 }
 
 class _DailyPageState extends State<DailyPage> {
+  final _formKey = GlobalKey<FormState>();
+  final _controller = TextEditingController();
   int selectedIndex = -1;
+  bool _isLoading = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -116,33 +125,69 @@ class _DailyPageState extends State<DailyPage> {
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(20),
                         ),
-                        child: TextField(
-                          cursorColor: kDarkPurple,
-                          style: const TextStyle(color: kDarkPurple),
-                          keyboardType: TextInputType.multiline,
-                          maxLines: 6,
-                          decoration: InputDecoration(
-                            hintText: 'What is making you feel this way?',
-                            hintStyle: TextStyle(color: Colors.grey.shade600),
-                            border: InputBorder.none,
+                        child: Form(
+                          key: _formKey,
+                          child: TextFormField(
+                            controller: _controller,
+                            cursorColor: kDarkPurple,
+                            style: const TextStyle(color: kDarkPurple),
+                            keyboardType: TextInputType.multiline,
+                            maxLines: 6,
+                            decoration: InputDecoration(
+                              hintText: 'What is making you feel this way?',
+                              hintStyle: TextStyle(color: Colors.grey.shade600),
+                              border: InputBorder.none,
+                            ),
+                            // validator: (input) {
+                            //   if (input!.isEmpty) {
+                            //     return 'Please type why you are feeling this way';
+                            //   }
+                            // },
                           ),
                         ),
                       ),
                       SizedBox(height: 20.h),
-                      RaisedGradientButton(
-                        child: Text(
-                          "Submit",
-                          style: TextStyle(fontSize: 15.sp),
-                        ),
-                        gradient: kGradBtn,
-                        onPressed: () {
-                          Helper.showBottomSheet(
-                            context,
-                            title: "Good job!",
-                            message: "Daily Check-In Complete",
-                          );
-                        },
-                      ),
+                      _isLoading
+                          ? const CircularProgressIndicator(color: kDarkPurple)
+                          : RaisedGradientButton(
+                              child: Text(
+                                "Submit",
+                                style: TextStyle(fontSize: 15.sp),
+                              ),
+                              gradient: kGradBtn,
+                              onPressed: () async {
+                                if (!_formKey.currentState!.validate()) {
+                                  return;
+                                }
+                                if (!await Helper.isConnected()) {
+                                  Helper.showToast(kMsgInternetDown);
+                                }
+                                setState(() {
+                                  _isLoading = true;
+                                });
+                                sharedPrefs.isLastRecordJournal = false;
+                                var record = {
+                                  'message': _controller.text.trim(),
+                                  'mood': moods[selectedIndex],
+                                  'timestamp': ServerValue.timestamp,
+                                };
+                                await DBHelper.addDailyCheckRecord(record)
+                                    .then((_) {
+                                  Get.offAll(() => const NavigatorPage(),
+                                      arguments: {'index': 1});
+                                  Future.delayed(
+                                          const Duration(milliseconds: 100))
+                                      .then(
+                                    (_) => Helper.showGetBtnSheet(
+                                      title: "Good Job!",
+                                      message: "Daily Check-In Complete",
+                                      iconData: CupertinoIcons
+                                          .check_mark_circled_solid,
+                                    ),
+                                  );
+                                });
+                              },
+                            ),
                     ],
                   ),
                 ),

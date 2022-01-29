@@ -4,6 +4,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tribebright/utils/database.dart';
 import 'package:tribebright/utils/sharedpref.dart';
 
 import '../../constants.dart';
@@ -42,9 +43,9 @@ class FavoritesTab extends StatelessWidget {
                 StreamBuilder(
                   stream: FirebaseDatabase.instance
                       .ref()
-                      .child('Parent')
+                      .child(kPARENTS)
                       .child(FirebaseAuth.instance.currentUser!.uid)
-                      .child('children')
+                      .child(kCHILDREN)
                       .child(sharedPrefs.currentUserKey)
                       .child('favorites')
                       .onValue,

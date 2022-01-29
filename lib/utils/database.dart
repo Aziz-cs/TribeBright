@@ -7,13 +7,25 @@ import 'package:tribebright/utils/sharedpref.dart';
 
 import '../model/category.dart';
 
+const String kPARENTS = 'parents';
+const String kCATEGORIES = 'categories';
+const String kSLEEPSOUNDS = 'sleepSounds';
+const String kCHILDREN = 'children';
+const String kNAME = 'name';
+const String kPHONENO = 'phoneNo';
+
+const String kIMGBIGURL = 'imgCategoryBigURL';
+const String kIMGURL = 'imgCategoryURL';
+const String kVIDEOS = 'videos';
+const String kSOUNDS = 'sounds';
+
 class DBHelper {
   static List<Category> categories = [];
   static late Category sleepCategory;
   static Future<void> getCategories() async {
     await FirebaseDatabase.instance
         .ref()
-        .child('categories')
+        .child(kCATEGORIES)
         .once()
         .then((categoriesDB) {
       // print(categoriesDB.value);
@@ -23,10 +35,10 @@ class DBHelper {
       int index = 0;
       for (var element in categoriesValue) {
         Category category = Category(
-            name: element['name'] ?? 'backup name',
-            imgCategoryURL: element['imgCategoryURL'] ?? 'backup img',
-            imgCategoryBigURL: element['imgCategoryBigURL'] ?? 'backup img',
-            videos: element['videos'],
+            name: element[kNAME] ?? 'backup name',
+            imgCategoryURL: element[kIMGURL] ?? 'backup img',
+            imgCategoryBigURL: element[kIMGBIGURL] ?? 'backup img',
+            videos: element[kVIDEOS],
             categoryIndex: index);
         categories.add(category);
         index++;
@@ -37,16 +49,16 @@ class DBHelper {
   static Future<void> getSleepSounds() async {
     await FirebaseDatabase.instance
         .ref()
-        .child('sleepSounds')
+        .child(kSLEEPSOUNDS)
         .once()
         .then((categoriesDB) {
       // print(categoriesDB.value);
       Map map = categoriesDB.snapshot.value as Map;
       sleepCategory = Category(
-        name: map['name'] ?? 'backup name',
+        name: map[kNAME] ?? 'backup name',
         imgCategoryURL: 'none',
-        imgCategoryBigURL: map['imgCategoryBigURL'] ?? 'backup img',
-        videos: map['sounds'],
+        imgCategoryBigURL: map[kIMGBIGURL] ?? 'backup img',
+        videos: map[kSOUNDS],
       );
 
       print("sleep category: ${sleepCategory.toString()}");
@@ -58,12 +70,12 @@ class DBHelper {
     required String phoneNo,
   }) async {
     Map userData = {
-      'name': name,
-      'phoneNo': phoneNo,
+      kNAME: name,
+      kPHONENO: phoneNo,
     };
     FirebaseDatabase.instance
         .ref()
-        .child('Parents')
+        .child(kPARENTS)
         .child(FirebaseAuth.instance.currentUser!.uid)
         .set(userData);
   }
@@ -75,9 +87,9 @@ class DBHelper {
   }) async {
     var childRef = FirebaseDatabase.instance
         .ref()
-        .child('Parents')
+        .child(kPARENTS)
         .child(FirebaseAuth.instance.currentUser!.uid)
-        .child('children')
+        .child(kCHILDREN)
         .push();
 
     Map childData = {
@@ -89,9 +101,9 @@ class DBHelper {
 
     FirebaseDatabase.instance
         .ref()
-        .child('Parents')
+        .child(kPARENTS)
         .child(FirebaseAuth.instance.currentUser!.uid)
-        .child('children')
+        .child(kCHILDREN)
         .child(childRef.key ?? '')
         .set(childData);
   }
@@ -99,7 +111,7 @@ class DBHelper {
   static void setParentValues() async {
     FirebaseDatabase.instance
         .ref()
-        .child('Parents')
+        .child(kPARENTS)
         .child(FirebaseAuth.instance.currentUser!.uid)
         .onValue
         .listen((event) {
@@ -115,17 +127,26 @@ class DBHelper {
   static Future<void> addJournalRecord(Map record) async {
     await FirebaseDatabase.instance
         .ref()
-        .child('Parents')
+        .child(kPARENTS)
         .child(FirebaseAuth.instance.currentUser!.uid)
-        .child('children')
+        .child(kCHILDREN)
         .child(sharedPrefs.currentUserKey)
         .child('journal')
         .push()
         .set(record)
-        .then((_) => Helper.showToast(
-              'Record has been added successfully!',
-              gravity: ToastGravity.CENTER,
-            ))
+        .catchError((e) => print('error on saving record: $e'));
+  }
+
+  static Future<void> addDailyCheckRecord(Map record) async {
+    await FirebaseDatabase.instance
+        .ref()
+        .child(kPARENTS)
+        .child(FirebaseAuth.instance.currentUser!.uid)
+        .child(kCHILDREN)
+        .child(sharedPrefs.currentUserKey)
+        .child('checkIn')
+        .push()
+        .set(record)
         .catchError((e) => print('error on saving record: $e'));
   }
 }

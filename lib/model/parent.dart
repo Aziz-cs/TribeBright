@@ -1,4 +1,5 @@
 import 'package:tribebright/model/child.dart';
+import 'package:tribebright/utils/database.dart';
 
 class Parent {
   String name;
@@ -13,9 +14,9 @@ class Parent {
 
   factory Parent.fromRTDB(Map<dynamic, dynamic> data) {
     return Parent(
-      name: data['name'] ?? '',
+      name: data[kNAME] ?? '',
       phoneNumber: data['phoneNo'] ?? '',
-      children: getParentsChildren(data['children'] ?? {}),
+      children: getParentsChildren(data[kCHILDREN] ?? {}),
     );
   }
 
@@ -27,8 +28,11 @@ class Parent {
 
 List<Child> getParentsChildren(Map data) {
   List<Child> childrenList = [];
-  data.forEach((key, value) {
-    childrenList.add(Child.fromRTDB(value));
-  });
+  if (data.isNotEmpty) {
+    data.forEach((key, value) {
+      childrenList.add(Child.fromRTDB(value));
+    });
+  }
+
   return childrenList;
 }

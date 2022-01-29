@@ -5,9 +5,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tribebright/constants.dart';
+import 'package:tribebright/model/check_in.dart';
 import 'package:tribebright/model/journal.dart';
+import 'package:tribebright/utils/database.dart';
 import 'package:tribebright/utils/sharedpref.dart';
 import 'package:tribebright/widgets/back_btn.dart';
+import 'package:tribebright/widgets/item_checkin.dart';
 import 'package:tribebright/widgets/item_journal.dart';
 
 var logTabs = const [DailyCheckInTab(), JournalTab()];
@@ -81,6 +84,24 @@ class DailyCheckInTab extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: kPurple.withOpacity(0.19),
+      body: FirebaseAnimatedList(
+        query: FirebaseDatabase.instance
+            .ref()
+            .child(kPARENTS)
+            .child(FirebaseAuth.instance.currentUser!.uid)
+            .child(kCHILDREN)
+            .child(sharedPrefs.currentUserKey)
+            .child('checkIn'),
+        sort: ((a, b) => (b.value as Map)['timestamp']
+            .compareTo((a.value as Map)['timestamp'])),
+        itemBuilder: (BuildContext context, DataSnapshot snapshot,
+            Animation<double> animation, int index) {
+          final journalData = snapshot.value as Map;
+          return CheckInItem(
+              checkIn: CheckIn.fromRTDB(journalData, snapshot.key));
+          // return Text('hi');
+        },
+      ),
     );
   }
 }
@@ -95,9 +116,9 @@ class JournalTab extends StatelessWidget {
       body: FirebaseAnimatedList(
         query: FirebaseDatabase.instance
             .ref()
-            .child('Parents')
+            .child(kPARENTS)
             .child(FirebaseAuth.instance.currentUser!.uid)
-            .child('children')
+            .child(kCHILDREN)
             .child(sharedPrefs.currentUserKey)
             .child('journal'),
         sort: ((a, b) => (b.value as Map)['timestamp']

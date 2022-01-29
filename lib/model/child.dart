@@ -13,10 +13,10 @@ class Child {
 
   factory Child.fromRTDB(Map<dynamic, dynamic> data) {
     return Child(
-      childName: data['childName'],
-      childID: data['childID'],
-      age: data['age'],
-      isMale: data['isMale'],
+      childName: data['childName'] ?? '',
+      childID: data['childID'] ?? '',
+      age: data['age'] ?? 0,
+      isMale: data['isMale'] ?? true,
     );
   }
 

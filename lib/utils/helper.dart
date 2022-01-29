@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
 import 'package:tribebright/constants.dart';
 import 'package:tribebright/model/parent.dart';
 
@@ -108,5 +109,43 @@ class Helper {
             ),
           );
         });
+  }
+
+  static void showGetBtnSheet({
+    required String title,
+    required String message,
+    required IconData iconData,
+  }) {
+    Get.snackbar(
+      '',
+      '',
+      margin: const EdgeInsets.only(bottom: 80),
+      backgroundColor: kPurple,
+      borderRadius: 10,
+      snackPosition: SnackPosition.BOTTOM,
+      shouldIconPulse: false,
+      duration: const Duration(seconds: 2),
+      icon: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 4),
+        child: Icon(
+          iconData,
+          color: kDarkPurple,
+          size: 30,
+        ),
+      ),
+      titleText: Text(
+        title,
+        style: TextStyle(
+          fontWeight: FontWeight.w500,
+          fontSize: 19.sp,
+        ),
+      ),
+      messageText: Text(
+        message,
+        style: TextStyle(
+          fontSize: 14.sp,
+        ),
+      ),
+    );
   }
 }
