@@ -51,7 +51,7 @@ class MyApp extends StatelessWidget {
                 displayColor: Colors.white,
               ),
         ),
-        home: Auth.isLoggedIn() ? NavigatorPage() : const LoginPage(),
+        home: Auth.isLoggedIn() ? const NavigatorPage() : const LoginPage(),
       ),
     );
   }

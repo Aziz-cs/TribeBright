@@ -2,10 +2,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:tribebright/model/child.dart';
 import 'package:tribebright/pages/login_page.dart';
 import 'package:tribebright/pages/tabs/logs_page.dart';
 import 'package:tribebright/pages/sign_up/add_child_page.dart';
+import 'package:tribebright/utils/database.dart';
 import 'package:tribebright/utils/helper.dart';
 import 'package:tribebright/utils/sharedpref.dart';
 
@@ -91,16 +94,16 @@ class _MenuDrawerState extends State<MenuDrawer> {
                       icon: CupertinoIcons.paperplane_fill,
                       onPress: () {},
                     ),
-                    aDivider(),
-                    menuListItem(
-                      itemName: "Terms & Conditions",
-                      icon: CupertinoIcons.doc_checkmark_fill,
-                      onPress: () {},
-                    ),
+                    // aDivider(),
+                    // menuListItem(
+                    //   itemName: "Terms & Conditions",
+                    //   icon: CupertinoIcons.doc_checkmark_fill,
+                    //   onPress: () {},
+                    // ),
 
                     aDivider(),
                     menuListItem(
-                      itemName: "Privacy Policy",
+                      itemName: "About",
                       icon: CupertinoIcons.square_favorites_fill,
                       onPress: () {},
                     ),
@@ -109,6 +112,7 @@ class _MenuDrawerState extends State<MenuDrawer> {
                       itemName: "Log out",
                       icon: CupertinoIcons.arrow_left_circle_fill,
                       onPress: () async {
+                        await DBHelper.userStream!.cancel();
                         await FirebaseAuth.instance.signOut();
                         SharedPrefs.clearData();
                         Get.offAll(() => const LoginPage());
@@ -161,7 +165,10 @@ class _MenuDrawerState extends State<MenuDrawer> {
       dense: true,
       title: Text(
         "Terms & Conditions",
-        style: TextStyle(fontSize: 12.sp, color: Color(0xFFbfc4c9)),
+        style: TextStyle(
+          fontSize: 12.sp,
+          color: const Color(0xFFbfc4c9),
+        ),
       ),
       contentPadding: const EdgeInsets.symmetric(vertical: 0.0),
       onTap: () {},
@@ -193,12 +200,16 @@ class _MenuDrawerState extends State<MenuDrawer> {
           // ),
           onExpansionChanged: (isOpened) {
             print(isOpened);
+            if (Helper.userParent!.children.isEmpty) {
+              Helper.showToast("You didn't add any child yet",
+                  gravity: ToastGravity.CENTER);
+            }
             setState(() {
               _isChildrenOpened = isOpened;
             });
           },
           title: Text(
-            "My Children",
+            "Children",
             style: TextStyle(
               fontSize: 16.sp,
               color: Colors.black87,

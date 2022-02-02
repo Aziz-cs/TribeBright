@@ -122,6 +122,11 @@ class _GratefulPageState extends State<GratefulPage> {
                                 if (!await Helper.isConnected()) {
                                   Helper.showToast(kMsgInternetDown);
                                 }
+                                if (sharedPrefs.currentUserKey ==
+                                    FirebaseAuth.instance.currentUser!.uid) {
+                                  Helper.showToast(kMsgAddSelectChild);
+                                  return;
+                                }
                                 setState(() {
                                   _isLoading = true;
                                 });

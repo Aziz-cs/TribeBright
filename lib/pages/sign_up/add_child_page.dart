@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:tribebright/constants.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tribebright/pages/login_page.dart';
+import 'package:tribebright/pages/navigator_page.dart';
 import 'package:tribebright/pages/sign_up/q_welcome_page.dart';
 import 'package:tribebright/utils/database.dart';
 import 'package:tribebright/utils/helper.dart';
@@ -132,76 +133,108 @@ class _AddChildPageState extends State<AddChildPage> {
                         SizedBox(
                           height: 25.h,
                         ),
-                        Column(
-                          children: [
-                            Text('Choose Photo', style: kTitleTextStyle),
-                            SizedBox(height: 8.h),
-                            Material(
-                              color: Colors.transparent,
-                              child: InkWell(
-                                highlightColor: kPurple,
-                                onTap: () => print('hi'),
-                                child: Image.asset(
-                                  'assets/images/select_img.png',
-                                  width: 120,
+                        Expanded(
+                          child: Column(
+                            children: [
+                              Text('Choose Photo', style: kTitleTextStyle),
+                              SizedBox(height: 8.h),
+                              Material(
+                                color: Colors.transparent,
+                                child: InkWell(
+                                  highlightColor: kPurple,
+                                  onTap: () => print('hi'),
+                                  child: Image.asset(
+                                    'assets/images/select_img.png',
+                                    width: 120,
+                                  ),
                                 ),
                               ),
-                            ),
-                            SizedBox(height: 40.h),
-                            _isLoading
-                                ? const Center(
-                                    child: CircularProgressIndicator(
-                                    color: kDarkPurple,
-                                  ))
-                                : FancyBtn(
-                                    text: 'Next',
-                                    fillColor: kPurple,
-                                    textColor: Colors.white,
-                                    onPress: () async {
-                                      if (!_formKey.currentState!.validate()) {
-                                        return;
-                                      }
-                                      if (!await Helper.isConnected()) {
-                                        Helper.showToast(kMsgInternetDown);
-                                        return;
-                                      }
-                                      if (selectGenderValue ==
-                                          'Select Gender') {
-                                        Helper.showToast(
-                                            "Please select child's gender");
-                                        return;
-                                      }
-                                      setState(() {
-                                        _isLoading = true;
-                                      });
-                                      await DBHelper.addChildToParent(
-                                              childName: _childNameController
-                                                  .text
-                                                  .trim(),
-                                              age: int.parse(
-                                                  _ageContoller.text.trim()),
-                                              isMale:
-                                                  selectGenderValue == 'Male'
-                                                      ? true
-                                                      : false)
-                                          .then((value) {
-                                        setState(() {
-                                          _isLoading = false;
-                                        });
-                                        Helper.showToast(
-                                            'Child has been added successfully');
-                                        Get.to(() => const QwelcomePage());
-                                      }).catchError((e) {
+                              SizedBox(height: 40.h),
+                              _isLoading
+                                  ? const Center(
+                                      child: CircularProgressIndicator(
+                                      color: kDarkPurple,
+                                    ))
+                                  : FancyBtn(
+                                      text: 'Next',
+                                      fillColor: kPurple,
+                                      textColor: Colors.white,
+                                      onPress: () async {
+                                        if (!_formKey.currentState!
+                                            .validate()) {
+                                          return;
+                                        }
+                                        if (!await Helper.isConnected()) {
+                                          Helper.showToast(kMsgInternetDown);
+                                          return;
+                                        }
+                                        if (selectGenderValue ==
+                                            'Select Gender') {
+                                          Helper.showToast(
+                                              "Please select child's gender");
+                                          return;
+                                        }
                                         setState(() {
                                           _isLoading = true;
                                         });
-                                        print(
-                                            'error happened in added child $e');
-                                        Helper.showToast(kMsgSomethingWrong);
-                                      });
-                                    },
-                                  )
-                          ],
+                                        await DBHelper.addChildToParent(
+                                                childName: _childNameController
+                                                    .text
+                                                    .trim(),
+                                                age: int.parse(
+                                                    _ageContoller.text.trim()),
+                                                isMale:
+                                                    selectGenderValue == 'Male'
+                                                        ? true
+                                                        : false)
+                                            .then((value) {
+                                          setState(() {
+                                            _isLoading = false;
+                                          });
+                                          Helper.showToast(
+                                              'Child has been added successfully');
+                                          Get.to(() => const QwelcomePage());
+                                        }).catchError((e) {
+                                          setState(() {
+                                            _isLoading = true;
+                                          });
+                                          print(
+                                              'error happened in added child $e');
+                                          Helper.showToast(kMsgSomethingWrong);
+                                        });
+                                      },
+                                    ),
+                              const Spacer(),
+                              TextButton(
+                                style: ButtonStyle(
+                                    backgroundColor:
+                                        MaterialStateProperty.all(kPurple)),
+                                onPressed: () {
+                                  Get.offAll(() => const NavigatorPage());
+                                },
+                                child: Text(
+                                  'Add Child later',
+                                  style: TextStyle(
+                                    fontSize: 14.sp,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              )
+                              // Row(
+                              //   children: [
+                              //     const Expanded(child: SizedBox()),
+                              //     Expanded(
+                              //       flex: 1,
+                              //       child: FancyBtn(
+                              //         fillColor: kPurple,
+                              //         text: 'Skip for now',
+                              //         textColor: Colors.white,
+                              //       ),
+                              //     ),
+                              //   ],
+                              // ),
+                            ],
+                          ),
                         ),
                       ],
                     ),

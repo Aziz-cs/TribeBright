@@ -7,6 +7,8 @@ import 'package:tribebright/pages/tabs/favorites_tab.dart';
 import 'package:tribebright/pages/tabs/home_tab.dart';
 import 'package:tribebright/pages/tabs/logs_page.dart';
 import 'package:tribebright/pages/tabs/parents_tab.dart';
+import 'package:tribebright/utils/database.dart';
+import 'package:tribebright/utils/helper.dart';
 import 'package:tribebright/utils/sharedpref.dart';
 
 import '../constants.dart';
@@ -37,7 +39,7 @@ class _NavigatorPageState extends State<NavigatorPage> {
       _currentIndex = Get.arguments['index'];
       Get.arguments['index'] = -1;
     }
-    print('current index: ${_currentIndex}');
+
     return Scaffold(
       body: tabs[_currentIndex],
       // body: tabs[widget.currentIndex],
@@ -50,6 +52,13 @@ class _NavigatorPageState extends State<NavigatorPage> {
         currentIndex: _currentIndex,
         type: BottomNavigationBarType.fixed,
         onTap: (tabIndex) {
+          if (tabIndex == 1 &&
+              sharedPrefs.currentUserKey ==
+                  FirebaseAuth.instance.currentUser!.uid) {
+            Helper.showToast(
+                'You must Add / Select child before previewing Logs tab');
+            return;
+          }
           setState(() {
             _currentIndex = tabIndex;
           });

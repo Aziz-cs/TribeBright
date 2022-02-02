@@ -1,14 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:tribebright/constants.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:tribebright/pages/login_page.dart';
 import 'package:tribebright/pages/sign_up/questions1_page.dart';
-import 'package:tribebright/widgets/dropdown_menu.dart';
-import 'package:tribebright/widgets/fancy_buttons.dart';
-import 'package:tribebright/widgets/textfield.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 final kTitleTextStyle = TextStyle(
   color: const Color(0xFF7879F1),

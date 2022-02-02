@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../model/category.dart';
@@ -18,6 +19,7 @@ class LessonsPage extends StatelessWidget {
   final Category category;
   @override
   Widget build(BuildContext context) {
+    print('category name is: ${category.name}');
     return Scaffold(
       // backgroundColor: kPurplE,
       body: Stack(
@@ -27,7 +29,8 @@ class LessonsPage extends StatelessWidget {
               gradient: kTopDownLogin,
             ),
           ),
-          SingleChildScrollView(
+          SafeArea(
+            top: false,
             child: Column(
               children: [
                 SizedBox(
@@ -56,37 +59,41 @@ class LessonsPage extends StatelessWidget {
                   errorWidget: (context, url, error) => const Icon(Icons.error),
                 ),
                 const SizedBox(height: 10),
-                Column(
-                  children: _buildCategoryLessons(category),
+                Expanded(
+                  child: FirebaseAnimatedList(
+                      defaultChild: const Center(
+                        child: CircularProgressIndicator(
+                          color: kDarkPurple,
+                        ),
+                      ),
+                      query: category.name.toLowerCase().contains('sleep')
+                          ? FirebaseDatabase.instance
+                              .ref()
+                              .child('sleepSounds')
+                              .child('sounds')
+                          : FirebaseDatabase.instance
+                              .ref()
+                              .child('categories')
+                              .child(category.categoryIndex.toString())
+                              .child('videos'),
+                      itemBuilder: (BuildContext context, DataSnapshot snapshot,
+                          Animation<double> animation, int index) {
+                        Map data = snapshot.value as Map;
+                        Lesson lesson = Lesson.fromRTDB(
+                            data: data,
+                            key: snapshot.key.toString(),
+                            category: category);
+                        return CardPlayer(lesson: lesson);
+                      }),
                 )
+                // Column(
+                //   children: _buildCategoryLessons(category),
+                // )
               ],
             ),
           ),
         ],
       ),
     );
-  }
-
-  String capitalize(String word) {
-    return "${word[0].toUpperCase()}${word.substring(1)}";
-  }
-
-  List<Widget> _buildCategoryLessons(Category category) {
-    List<Widget> mediationsLessonsWidgets = [];
-    int index = 0;
-
-    category.videos.forEach((element) {
-      Lesson lesson = Lesson(
-          title: element['title'],
-          videoURL: element['videoURL'],
-          categoryName: category.name,
-          categoryIndex: category.categoryIndex ?? 0,
-          lessonIndex: index);
-      mediationsLessonsWidgets.add(PlayCard(
-        lesson: lesson,
-      ));
-      index++;
-    });
-    return mediationsLessonsWidgets;
   }
 }

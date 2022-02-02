@@ -1,10 +1,10 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:tribebright/utils/database.dart';
+import 'package:tribebright/model/lesson.dart';
+import 'package:tribebright/pages/lessons_pages/card_player.dart';
 import 'package:tribebright/utils/sharedpref.dart';
 
 import '../../constants.dart';
@@ -26,57 +26,31 @@ class FavoritesTab extends StatelessWidget {
               gradient: kTopDownLogin,
             ),
           ),
-          SingleChildScrollView(
-            child: Column(
-              children: [
-                SizedBox(
-                  height: 44.h,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: const [
-                    BackBtn(),
-                  ],
-                ),
-                Image.asset('assets/images/fav_logo.png'),
-                StreamBuilder(
-                  stream: FirebaseDatabase.instance
-                      .ref()
-                      .child(kPARENTS)
-                      .child(FirebaseAuth.instance.currentUser!.uid)
-                      .child(kCHILDREN)
-                      .child(sharedPrefs.currentUserKey)
-                      .child('favorites')
-                      .onValue,
-                  builder: (builder, snapshot) {
-                    print(snapshot.connectionState);
-                    if (snapshot.connectionState == ConnectionState.active) {
-                      print('connection is active');
-                      print('snapshot has data?');
-                      print(snapshot.hasData);
-                    }
-                    if (snapshot.connectionState == ConnectionState.done) {
-                      print('connection is done');
-                      print('snapshot has data?');
-                      print(snapshot.hasData);
-                    }
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      print('connection is waiting');
-                      print('snapshot has data?');
-                      print(snapshot.hasData);
-                    }
-                    if (snapshot.connectionState == ConnectionState.none) {
-                      print('connection is none');
-                      print('snapshot has data?');
-                      print(snapshot.hasData);
-                    }
-                    return SizedBox();
-                  },
-                ),
-                const SizedBox(height: 10),
-              ],
-            ),
+          Column(
+            children: [
+              SizedBox(height: 44.h),
+              Image.asset('assets/images/fav_logo.png'),
+              SizedBox(height: 15.h),
+              Expanded(
+                child: FirebaseAnimatedList(
+                    defaultChild: const Center(
+                      child: CircularProgressIndicator(
+                        color: kDarkPurple,
+                      ),
+                    ),
+                    query: FirebaseDatabase.instance
+                        .ref()
+                        .child('favorites')
+                        .child(sharedPrefs.currentUserKey),
+                    itemBuilder: (BuildContext context, DataSnapshot snapshot,
+                        Animation<double> animation, int index) {
+                      Map data = snapshot.value as Map;
+                      print(data);
+                      Lesson lesson = Lesson.FavFromRTDB(data: data);
+                      return CardPlayer(lesson: lesson);
+                    }),
+              ),
+            ],
           ),
         ],
       ),

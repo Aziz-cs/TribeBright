@@ -60,6 +60,8 @@ Divider aDivider() {
 
 const kMsgSomethingWrong = "Somethings went wrong, please try again later";
 const kMsgInternetDown = "Please check your internet connection and try again";
+const kMsgAddSelectChild =
+    "Please Add / Select Child before submitting a record";
 
 // List<Lesson> mediationsLessons = [
 //   Lesson(title: 'Factory of Happiniess', order: 1, videoURL: ''),

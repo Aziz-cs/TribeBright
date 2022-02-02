@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:tribebright/model/category.dart';
 import 'package:tribebright/pages/lessons_pages/lessons_page.dart';
+import 'package:tribebright/pages/lessons_pages/lessons_page_old.dart';
 import 'package:tribebright/pages/records/journal_page.dart';
 import 'package:tribebright/utils/helper.dart';
 

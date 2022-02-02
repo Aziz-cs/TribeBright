@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -20,6 +22,7 @@ const String kVIDEOS = 'videos';
 const String kSOUNDS = 'sounds';
 
 class DBHelper {
+  static StreamSubscription<DatabaseEvent>? userStream;
   static List<Category> categories = [];
   static late Category sleepCategory;
   static Future<void> getCategories() async {
@@ -109,7 +112,7 @@ class DBHelper {
   }
 
   static void setParentValues() async {
-    FirebaseDatabase.instance
+    userStream = FirebaseDatabase.instance
         .ref()
         .child(kPARENTS)
         .child(FirebaseAuth.instance.currentUser!.uid)
@@ -150,3 +153,32 @@ class DBHelper {
         .catchError((e) => print('error on saving record: $e'));
   }
 }
+
+
+
+    // FirebaseDatabase.instance
+    //     .ref()
+    //     .child(kCATEGORIES)
+    //     .child('0')
+    //     .child('videos')
+    //     .once()
+    //     .then((value) {
+    //   List videos = value.snapshot.value as List;
+    //   print(videos.length);
+    //   int i = 0;
+    //   videos.forEach((element) {
+    //     FirebaseDatabase.instance
+    //         .ref()
+    //         .child(kCATEGORIES)
+    //         .child('5')
+    //         .child('videos')
+    //         .child(i.toString())
+    //         .update(
+    //       {
+    //         'isFavorite': false,
+    //       },
+    //     );
+    //     i = i + 1;
+    //     print('I is $i');
+    //   });
+    // });
