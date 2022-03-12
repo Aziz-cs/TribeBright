@@ -33,134 +33,137 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
         resizeToAvoidBottomInset: false,
         backgroundColor: Colors.white,
-        body: Form(
-          key: _formKey,
-          child: Column(
-            children: [
-              SizedBox(height: 30.h),
-              Image.asset(
-                "assets/images/login_avatar.png",
-                height: 0.32.sh,
-              ),
-              const Spacer(),
-              Container(
-                height: 0.64.sh,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  gradient: kTopDownLogin,
-                  borderRadius: BorderRadius.vertical(
-                      top: Radius.elliptical(
-                          MediaQuery.of(context).size.width, 190.0)),
+        body: GestureDetector(
+          onTap: () => FocusScope.of(context).unfocus(),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              children: [
+                SizedBox(height: 30.h),
+                Image.asset(
+                  "assets/images/login_avatar.png",
+                  height: 0.32.sh,
                 ),
-                child: Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Column(
-                    children: [
-                      SizedBox(height: 35.h),
-                      Image.asset(
-                        "assets/images/login_word.png",
-                        height: 47.h,
-                      ),
-                      // buildEmailFormField(),
-                      SizedBox(height: 25.h),
+                const Spacer(),
+                Container(
+                  height: 0.64.sh,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    gradient: kDownTopPurple,
+                    borderRadius: BorderRadius.vertical(
+                        top: Radius.elliptical(
+                            MediaQuery.of(context).size.width, 190.0)),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Column(
+                      children: [
+                        SizedBox(height: 35.h),
+                        Image.asset(
+                          "assets/images/login_word.png",
+                          height: 47.h,
+                        ),
+                        // buildEmailFormField(),
+                        SizedBox(height: 25.h),
 
-                      MyTextField(
-                        label: "Email Address",
-                        suffixIcon: const Icon(CupertinoIcons.mail_solid,
-                            color: Colors.white),
-                        controller: _emailAddressContoller,
-                        validator: (input) {
-                          if (input!.isEmpty) {
-                            return 'This field can not be empty';
-                          }
-                          if (!GetUtils.isEmail(input)) {
-                            return 'Please type a valid email';
-                          }
-                        },
-                      ),
-                      SizedBox(height: 15.h),
+                        MyTextField(
+                          label: "Email Address",
+                          suffixIcon: const Icon(CupertinoIcons.mail_solid,
+                              color: Colors.white),
+                          controller: _emailAddressContoller,
+                          validator: (input) {
+                            if (input!.isEmpty) {
+                              return 'This field can not be empty';
+                            }
+                            if (!GetUtils.isEmail(input)) {
+                              return 'Please type a valid email';
+                            }
+                          },
+                        ),
+                        SizedBox(height: 15.h),
 
-                      MyTextField(
-                        label: "Password",
-                        suffixIcon: const Icon(CupertinoIcons.padlock_solid,
-                            color: Colors.white),
-                        isObsecure: true,
-                        controller: _passwordContoller,
-                        validator: (input) {
-                          if (input!.isEmpty) {
-                            return 'This field can not be empty';
-                          }
-                          if (input.length < 6) {
-                            return 'Password is too short';
-                          }
-                        },
-                      ),
-                      SizedBox(height: 15.h),
+                        MyTextField(
+                          label: "Password",
+                          suffixIcon: const Icon(CupertinoIcons.padlock_solid,
+                              color: Colors.white),
+                          isObsecure: true,
+                          controller: _passwordContoller,
+                          validator: (input) {
+                            if (input!.isEmpty) {
+                              return 'This field can not be empty';
+                            }
+                            if (input.length < 6) {
+                              return 'Password is too short';
+                            }
+                          },
+                        ),
+                        SizedBox(height: 15.h),
 
-                      _isLoading
-                          ? const Center(
-                              child: CircularProgressIndicator(
-                                color: kDarkPurple,
+                        _isLoading
+                            ? const Center(
+                                child: CircularProgressIndicator(
+                                  color: kDarkPurple,
+                                ),
+                              )
+                            : FancyBtn(
+                                text: "Login",
+                                onPress: () async {
+                                  if (!_formKey.currentState!.validate()) {
+                                    return;
+                                  }
+                                  if (!await Helper.isConnected()) {
+                                    Helper.showToast(kMsgInternetDown);
+                                    return;
+                                  }
+                                  setState(() {
+                                    _isLoading = true;
+                                  });
+                                  await Auth.signIn(
+                                      email: _emailAddressContoller.text.trim(),
+                                      password: _passwordContoller.text.trim());
+
+                                  setState(() {
+                                    _isLoading = false;
+                                  });
+                                }),
+
+                        SizedBox(height: 15.h),
+
+                        Text("Forgot your password?",
+                            style: TextStyle(
+                              color: const Color(0XFF382563),
+                              fontSize: 15.sp,
+                            )),
+                        SizedBox(height: 26.h),
+
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text("Don't have an account?",
+                                style: TextStyle(
+                                  color: const Color(0XFF382563),
+                                  fontSize: 16.sp,
+                                )),
+                            GestureDetector(
+                              onTap: () => Get.to(() => SignUpPage()),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text("Sign Up",
+                                    style: TextStyle(
+                                      color: const Color(0XFF382563),
+                                      fontSize: 16.sp,
+                                      fontWeight: FontWeight.bold,
+                                    )),
                               ),
-                            )
-                          : FancyBtn(
-                              text: "Login",
-                              onPress: () async {
-                                if (!_formKey.currentState!.validate()) {
-                                  return;
-                                }
-                                if (!await Helper.isConnected()) {
-                                  Helper.showToast(kMsgInternetDown);
-                                  return;
-                                }
-                                setState(() {
-                                  _isLoading = true;
-                                });
-                                await Auth.signIn(
-                                    email: _emailAddressContoller.text.trim(),
-                                    password: _passwordContoller.text.trim());
-
-                                setState(() {
-                                  _isLoading = false;
-                                });
-                              }),
-
-                      SizedBox(height: 15.h),
-
-                      Text("Forgot your password?",
-                          style: TextStyle(
-                            color: const Color(0XFF382563),
-                            fontSize: 15.sp,
-                          )),
-                      SizedBox(height: 26.h),
-
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text("Don't have an account?",
-                              style: TextStyle(
-                                color: const Color(0XFF382563),
-                                fontSize: 16.sp,
-                              )),
-                          GestureDetector(
-                            onTap: () => Get.to(() => SignUpPage()),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text("Sign Up",
-                                  style: TextStyle(
-                                    color: const Color(0XFF382563),
-                                    fontSize: 16.sp,
-                                    fontWeight: FontWeight.bold,
-                                  )),
                             ),
-                          ),
-                        ],
-                      ),
-                    ],
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ));
   }

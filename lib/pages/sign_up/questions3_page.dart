@@ -77,11 +77,11 @@ class _Questions3PageState extends State<Questions3Page> {
                         ),
                         SizedBox(height: 10.h),
                         const MyTextFormField(),
-                        SizedBox(height: 10.h),
-                        Text(
-                          'What happens for your child when they are upset?',
-                          style: kQuestionTextStyle,
-                        ),
+                        // SizedBox(height: 10.h),
+                        // Text(
+                        //   'What happens for your child when they are upset?',
+                        //   style: kQuestionTextStyle,
+                        // ),
                         SizedBox(height: 10.h),
                         const MyTextFormField(),
                         SizedBox(height: 10.h),

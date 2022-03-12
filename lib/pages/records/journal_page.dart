@@ -16,57 +16,60 @@ class JournalPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       // backgroundColor: kPurplE,
-      body: Stack(
-        children: [
-          Container(
-            decoration: const BoxDecoration(
-              gradient: kTopDownLogin,
+      body: GestureDetector(
+        onTap: () => FocusScope.of(context).unfocus(),
+        child: Stack(
+          children: [
+            Container(
+              decoration: const BoxDecoration(
+                gradient: kTopDownPurple,
+              ),
             ),
-          ),
-          SingleChildScrollView(
-            child: Column(children: [
-              SizedBox(
-                height: 44.h,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const BackBtn(),
-                  Text(
-                    "Your Journal",
-                    style: TextStyle(
-                      fontSize: 18.sp,
-                      fontWeight: FontWeight.w600,
+            SingleChildScrollView(
+              child: Column(children: [
+                SizedBox(
+                  height: 44.h,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const BackBtn(),
+                    Text(
+                      "Your Journal",
+                      style: TextStyle(
+                        fontSize: 18.sp,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
-                  ),
-                  const SizedBox(width: 100)
-                ],
-              ),
-              SizedBox(
-                height: 20.h,
-              ),
-              _buildJournalBtn(
-                title: 'Today',
-                subtitle: "I'm grateful for..",
-                imgPath: "assets/images/btn_grateful.png",
-                onPress: () => Get.to(() => const GratefulPage()),
-              ),
-              _buildJournalBtn(
-                title: 'Goals',
-                subtitle: "That define your future..",
-                imgPath: "assets/images/btn_goals.png",
-                onPress: () => Get.to(() => const GoalsPage()),
-              ),
-              _buildJournalBtn(
-                title: 'Reflect',
-                subtitle: "On your day..",
-                imgPath: "assets/images/btn_reflect.png",
-                onPress: () => Get.to(() => const ReflectionPage()),
-              ),
-            ]),
-          ),
-        ],
+                    const SizedBox(width: 100)
+                  ],
+                ),
+                SizedBox(
+                  height: 20.h,
+                ),
+                _buildJournalBtn(
+                  title: 'Today',
+                  subtitle: "I'm grateful for..",
+                  imgPath: "assets/images/btn_grateful.png",
+                  onPress: () => Get.to(() => const GratefulPage()),
+                ),
+                _buildJournalBtn(
+                  title: 'Goals',
+                  subtitle: "That define your future..",
+                  imgPath: "assets/images/btn_goals.png",
+                  onPress: () => Get.to(() => const GoalsPage()),
+                ),
+                _buildJournalBtn(
+                  title: 'Reflect',
+                  subtitle: "On your day..",
+                  imgPath: "assets/images/btn_reflect.png",
+                  onPress: () => Get.to(() => const ReflectionPage()),
+                ),
+              ]),
+            ),
+          ],
+        ),
       ),
     );
   }

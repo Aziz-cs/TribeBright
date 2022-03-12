@@ -37,212 +37,218 @@ class _AddChildPageState extends State<AddChildPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: kPurple,
-      body: SafeArea(
-        child: Form(
-          key: _formKey,
-          child: Column(
-            children: [
-              SizedBox(
-                height: 0.05.sh,
-              ),
-              Text(
-                'Getting Started',
-                style: TextStyle(
-                  fontSize: 18.sp,
-                  fontWeight: FontWeight.w500,
+      body: GestureDetector(
+        onTap: () => FocusScope.of(context).unfocus(),
+        child: SafeArea(
+          child: Form(
+            key: _formKey,
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 0.05.sh,
                 ),
-              ),
-              SizedBox(
-                height: 0.035.sh,
-              ),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.all(12),
-                  child: Container(
+                Text(
+                  'Getting Started',
+                  style: TextStyle(
+                    fontSize: 18.sp,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                SizedBox(
+                  height: 0.035.sh,
+                ),
+                Expanded(
+                  child: Padding(
                     padding: const EdgeInsets.all(12),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      color: Colors.white,
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        SizedBox(height: 10.h),
-                        Text("Child's name", style: kTitleTextStyle),
-                        SizedBox(height: 3.h),
-                        CustomTextField(
-                          inputType: TextInputType.text,
-                          controller: _childNameController,
-                          validator: (input) {
-                            if (input!.isEmpty) {
-                              return 'This field can not be empty';
-                            }
-                            if (input.length < 2) {
-                              return 'Name is too short';
-                            }
-                          },
-                        ),
-                        SizedBox(height: 10.h),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text("Age", style: kTitleTextStyle),
-                                  SizedBox(height: 3.h),
-                                  Padding(
-                                    padding: const EdgeInsets.only(right: 25.0),
-                                    child: CustomTextField(
-                                      inputType: TextInputType.number,
-                                      controller: _ageContoller,
-                                      validator: (input) {
-                                        if (input!.isEmpty) {
-                                          return 'This field can not be empty';
-                                        }
-                                        if (input.length > 2) {
-                                          return 'Please enter a valid age';
-                                        }
-                                      },
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Expanded(
-                              child: Padding(
-                                padding: const EdgeInsets.only(top: 18.0),
-                                child: MyDropDownMenu(
-                                  value: selectGenderValue,
-                                  items: const [
-                                    'Select Gender',
-                                    'Male',
-                                    'Female'
-                                  ],
-                                  onChangedValue: (userValue) {
-                                    setState(() {
-                                      selectGenderValue =
-                                          userValue ?? 'Select Gender';
-                                    });
-                                  },
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 25.h,
-                        ),
-                        Expanded(
-                          child: Column(
+                    child: Container(
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color: Colors.white,
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          SizedBox(height: 10.h),
+                          Text("Child's name", style: kTitleTextStyle),
+                          SizedBox(height: 3.h),
+                          CustomTextField(
+                            inputType: TextInputType.text,
+                            controller: _childNameController,
+                            validator: (input) {
+                              if (input!.isEmpty) {
+                                return 'This field can not be empty';
+                              }
+                              if (input.length < 2) {
+                                return 'Name is too short';
+                              }
+                            },
+                          ),
+                          SizedBox(height: 10.h),
+                          Row(
                             children: [
-                              Text('Choose Photo', style: kTitleTextStyle),
-                              SizedBox(height: 8.h),
-                              Material(
-                                color: Colors.transparent,
-                                child: InkWell(
-                                  highlightColor: kPurple,
-                                  onTap: () => print('hi'),
-                                  child: Image.asset(
-                                    'assets/images/select_img.png',
-                                    width: 120,
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text("Age", style: kTitleTextStyle),
+                                    SizedBox(height: 3.h),
+                                    Padding(
+                                      padding:
+                                          const EdgeInsets.only(right: 25.0),
+                                      child: CustomTextField(
+                                        inputType: TextInputType.number,
+                                        controller: _ageContoller,
+                                        validator: (input) {
+                                          if (input!.isEmpty) {
+                                            return 'This field can not be empty';
+                                          }
+                                          if (input.length > 2) {
+                                            return 'Please enter a valid age';
+                                          }
+                                        },
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Expanded(
+                                child: Padding(
+                                  padding: const EdgeInsets.only(top: 18.0),
+                                  child: MyDropDownMenu(
+                                    value: selectGenderValue,
+                                    items: const [
+                                      'Select Gender',
+                                      'Male',
+                                      'Female'
+                                    ],
+                                    onChangedValue: (userValue) {
+                                      setState(() {
+                                        selectGenderValue =
+                                            userValue ?? 'Select Gender';
+                                      });
+                                    },
                                   ),
                                 ),
                               ),
-                              SizedBox(height: 40.h),
-                              _isLoading
-                                  ? const Center(
-                                      child: CircularProgressIndicator(
-                                      color: kDarkPurple,
-                                    ))
-                                  : FancyBtn(
-                                      text: 'Next',
-                                      fillColor: kPurple,
-                                      textColor: Colors.white,
-                                      onPress: () async {
-                                        if (!_formKey.currentState!
-                                            .validate()) {
-                                          return;
-                                        }
-                                        if (!await Helper.isConnected()) {
-                                          Helper.showToast(kMsgInternetDown);
-                                          return;
-                                        }
-                                        if (selectGenderValue ==
-                                            'Select Gender') {
-                                          Helper.showToast(
-                                              "Please select child's gender");
-                                          return;
-                                        }
-                                        setState(() {
-                                          _isLoading = true;
-                                        });
-                                        await DBHelper.addChildToParent(
-                                                childName: _childNameController
-                                                    .text
-                                                    .trim(),
-                                                age: int.parse(
-                                                    _ageContoller.text.trim()),
-                                                isMale:
-                                                    selectGenderValue == 'Male'
-                                                        ? true
-                                                        : false)
-                                            .then((value) {
-                                          setState(() {
-                                            _isLoading = false;
-                                          });
-                                          Helper.showToast(
-                                              'Child has been added successfully');
-                                          Get.to(() => const QwelcomePage());
-                                        }).catchError((e) {
+                            ],
+                          ),
+                          SizedBox(
+                            height: 25.h,
+                          ),
+                          Expanded(
+                            child: Column(
+                              children: [
+                                // Text('Choose Photo', style: kTitleTextStyle),
+                                // SizedBox(height: 8.h),
+                                // Material(
+                                //   color: Colors.transparent,
+                                //   child: InkWell(
+                                //     highlightColor: kPurple,
+                                //     onTap: () => print('hi'),
+                                //     child: Image.asset(
+                                //       'assets/images/select_img.png',
+                                //       width: 120,
+                                //     ),
+                                //   ),
+                                // ),
+                                SizedBox(height: 40.h),
+                                _isLoading
+                                    ? const Center(
+                                        child: CircularProgressIndicator(
+                                        color: kDarkPurple,
+                                      ))
+                                    : FancyBtn(
+                                        text: 'Next',
+                                        fillColor: kPurple,
+                                        textColor: Colors.white,
+                                        onPress: () async {
+                                          if (!_formKey.currentState!
+                                              .validate()) {
+                                            return;
+                                          }
+                                          if (!await Helper.isConnected()) {
+                                            Helper.showToast(kMsgInternetDown);
+                                            return;
+                                          }
+                                          if (selectGenderValue ==
+                                              'Select Gender') {
+                                            Helper.showToast(
+                                                "Please select child's gender");
+                                            return;
+                                          }
                                           setState(() {
                                             _isLoading = true;
                                           });
-                                          print(
-                                              'error happened in added child $e');
-                                          Helper.showToast(kMsgSomethingWrong);
-                                        });
-                                      },
+                                          await DBHelper.addChildToParent(
+                                                  childName:
+                                                      _childNameController.text
+                                                          .trim(),
+                                                  age: int.parse(_ageContoller
+                                                      .text
+                                                      .trim()),
+                                                  isMale: selectGenderValue ==
+                                                          'Male'
+                                                      ? true
+                                                      : false)
+                                              .then((value) {
+                                            setState(() {
+                                              _isLoading = false;
+                                            });
+                                            Helper.showToast(
+                                                'Child has been added successfully');
+                                            Get.to(() => const QwelcomePage());
+                                          }).catchError((e) {
+                                            setState(() {
+                                              _isLoading = true;
+                                            });
+                                            print(
+                                                'error happened in added child $e');
+                                            Helper.showToast(
+                                                kMsgSomethingWrong);
+                                          });
+                                        },
+                                      ),
+                                const Spacer(),
+                                TextButton(
+                                  style: ButtonStyle(
+                                      backgroundColor:
+                                          MaterialStateProperty.all(kPurple)),
+                                  onPressed: () {
+                                    Get.offAll(() => const NavigatorPage());
+                                  },
+                                  child: Text(
+                                    'Add Child later',
+                                    style: TextStyle(
+                                      fontSize: 14.sp,
+                                      color: Colors.white,
                                     ),
-                              const Spacer(),
-                              TextButton(
-                                style: ButtonStyle(
-                                    backgroundColor:
-                                        MaterialStateProperty.all(kPurple)),
-                                onPressed: () {
-                                  Get.offAll(() => const NavigatorPage());
-                                },
-                                child: Text(
-                                  'Add Child later',
-                                  style: TextStyle(
-                                    fontSize: 14.sp,
-                                    color: Colors.white,
                                   ),
-                                ),
-                              )
-                              // Row(
-                              //   children: [
-                              //     const Expanded(child: SizedBox()),
-                              //     Expanded(
-                              //       flex: 1,
-                              //       child: FancyBtn(
-                              //         fillColor: kPurple,
-                              //         text: 'Skip for now',
-                              //         textColor: Colors.white,
-                              //       ),
-                              //     ),
-                              //   ],
-                              // ),
-                            ],
+                                )
+                                // Row(
+                                //   children: [
+                                //     const Expanded(child: SizedBox()),
+                                //     Expanded(
+                                //       flex: 1,
+                                //       child: FancyBtn(
+                                //         fillColor: kPurple,
+                                //         text: 'Skip for now',
+                                //         textColor: Colors.white,
+                                //       ),
+                                //     ),
+                                //   ],
+                                // ),
+                              ],
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
+                      // decoration: BoxDecoration,
                     ),
-                    // decoration: BoxDecoration,
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

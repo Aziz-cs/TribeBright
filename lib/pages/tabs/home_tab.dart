@@ -6,6 +6,7 @@ import 'package:tribebright/model/category.dart';
 import 'package:tribebright/pages/lessons_pages/lessons_page.dart';
 import 'package:tribebright/pages/lessons_pages/lessons_page_old.dart';
 import 'package:tribebright/pages/records/journal_page.dart';
+import 'package:tribebright/pages/tabs/logs_page.dart';
 import 'package:tribebright/utils/helper.dart';
 
 import '../../constants.dart';
@@ -35,11 +36,10 @@ class _HomeTabState extends State<HomeTab> {
               // height: 0.22.sh,
               padding: const EdgeInsets.only(top: 40, bottom: 28),
               width: double.infinity,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 gradient: kTopDownWelcome,
-                borderRadius: BorderRadius.vertical(
-                    bottom: Radius.elliptical(
-                        MediaQuery.of(context).size.width, 90.0)),
+                borderRadius:
+                    BorderRadius.only(bottomLeft: Radius.circular(15)),
               ),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -56,17 +56,25 @@ class _HomeTabState extends State<HomeTab> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Image.asset("assets/images/welcome_word.png"),
+                        Text(
+                          'Welcome,',
+                          style: TextStyle(
+                            fontSize: 27.sp,
+                            color: Colors.white,
+                            // fontWeight: FontWeight.bold,
+                            fontFamily: "Montserrat-Regular",
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                         Padding(
                           padding: const EdgeInsets.only(left: 12),
                           child: Text(
                             Helper.userParent!.name,
                             style: TextStyle(
-                              fontSize: 27.sp,
+                              fontSize: 24.sp,
                               color: Colors.white,
-                              height: 0.7,
-                              // fontWeight: FontWeight.bold,
-                              fontFamily: "Acme",
+                              fontWeight: FontWeight.bold,
+                              fontFamily: "Montserrat-Regular",
                             ),
                           ),
                         ),
@@ -75,7 +83,7 @@ class _HomeTabState extends State<HomeTab> {
                   ),
                   const Spacer(),
                   Image.asset(
-                    "assets/images/sepals1.png",
+                    "assets/images/sepals0.png",
                     scale: 1.5,
                   ),
                 ],
@@ -87,19 +95,20 @@ class _HomeTabState extends State<HomeTab> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                _buildRoundBtn("Daily check-in", "happy_ic",
+                _buildRoundBtn("Daily check-In", "happy_ic",
                     () => Get.to(() => const DailyPage())),
                 _buildRoundBtn("Journal", "journal_ic",
                     () => Get.to(() => const JournalPage())),
                 _buildRoundBtn(
                   "Sleep",
-                  "sound_ic",
+                  "fav_ic",
                   () => Get.to(
                     () => LessonsPage(category: DBHelper.sleepCategory),
                   ),
                 ),
               ],
             ),
+            SizedBox(height: 10.h),
             Stack(
               clipBehavior: Clip.none,
               children: [
@@ -139,38 +148,40 @@ class _HomeTabState extends State<HomeTab> {
   }
 
   Widget _buildRoundBtn(String label, String imgName, VoidCallback onPress) {
-    return SizedBox(
-      height: 95.h,
-      width: 95.w,
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          primary: const Color(0XFF9368c4),
-          // primary: kDarkPurple.withOpacity(0.9),
-          shape: const CircleBorder(),
-          padding: const EdgeInsets.all(24),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset(
-              "assets/images/$imgName.png",
-              color: Colors.white,
-            ),
-            SizedBox(height: 2.h),
-            Flexible(
-              child: Text(
-                label,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontFamily: "Acme",
-                  fontSize: 13.sp,
-                ),
+    return Column(
+      children: [
+        Material(
+          color: Colors.transparent,
+          child: InkWell(
+            onTap: onPress,
+            child: Container(
+              height: 90.h,
+              width: 90.w,
+              decoration: const BoxDecoration(
+                gradient: kTopDownGreenToPurple,
+                shape: BoxShape.circle,
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    "assets/images/$imgName.png",
+                    color: Colors.white,
+                  ),
+                ],
               ),
             ),
-          ],
+          ),
         ),
-        onPressed: onPress,
-      ),
+        SizedBox(height: 4.h),
+        Text(
+          label,
+          style: TextStyle(
+            color: kDarkPurple,
+            fontSize: 13.sp,
+          ),
+        ),
+      ],
     );
   }
 
@@ -208,12 +219,8 @@ class CategoryCard extends StatelessWidget {
           children: [
             Expanded(
               flex: 6,
-              child: CachedNetworkImage(
-                imageUrl: category.imgCategoryURL,
-                placeholder: (context, url) => const CircularProgressIndicator(
-                  color: kPurple,
-                ),
-                errorWidget: (context, url, error) => Icon(Icons.error),
+              child: Image.asset(
+                'assets/images/${category.imgCategoryName}.png',
               ),
             ),
             SizedBox(height: 3.h),
@@ -227,7 +234,6 @@ class CategoryCard extends StatelessWidget {
                       color: const Color(0xFF450E60),
                       height: 0.5,
                       fontSize: 16.sp,
-                      fontFamily: "Acme",
                     ),
                   ),
                   SizedBox(

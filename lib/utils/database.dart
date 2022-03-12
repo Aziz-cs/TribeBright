@@ -16,8 +16,9 @@ const String kCHILDREN = 'children';
 const String kNAME = 'name';
 const String kPHONENO = 'phoneNo';
 
-const String kIMGBIGURL = 'imgCategoryBigURL';
-const String kIMGURL = 'imgCategoryURL';
+// const String kIMGBIGURL = 'imgCategoryBigURL';
+const String kIMGNAME = 'imgCategoryName';
+// const String kIMGURL = 'imgCategoryURL';
 const String kVIDEOS = 'videos';
 const String kSOUNDS = 'sounds';
 
@@ -39,8 +40,8 @@ class DBHelper {
       for (var element in categoriesValue) {
         Category category = Category(
             name: element[kNAME] ?? 'backup name',
-            imgCategoryURL: element[kIMGURL] ?? 'backup img',
-            imgCategoryBigURL: element[kIMGBIGURL] ?? 'backup img',
+            imgCategoryName: element[kIMGNAME] ?? 'cat_meditation',
+            // imgCategoryBigURL: element[kIMGBIGURL] ?? 'backup img',
             videos: element[kVIDEOS],
             categoryIndex: index);
         categories.add(category);
@@ -59,8 +60,9 @@ class DBHelper {
       Map map = categoriesDB.snapshot.value as Map;
       sleepCategory = Category(
         name: map[kNAME] ?? 'backup name',
-        imgCategoryURL: 'none',
-        imgCategoryBigURL: map[kIMGBIGURL] ?? 'backup img',
+        imgCategoryName: map[kIMGNAME],
+        // imgCategoryURL: 'none',
+        // imgCategoryBigURL: map[kIMGBIGURL] ?? 'backup img',
         videos: map[kSOUNDS],
       );
 

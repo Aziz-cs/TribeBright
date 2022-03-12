@@ -23,13 +23,22 @@ class FavoritesTab extends StatelessWidget {
         children: [
           Container(
             decoration: const BoxDecoration(
-              gradient: kTopDownLogin,
+              gradient: kTopDownPurple,
             ),
           ),
           Column(
             children: [
               SizedBox(height: 44.h),
-              Image.asset('assets/images/fav_logo.png'),
+              Text(
+                'Favorites',
+                style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 3.h),
+              const Icon(
+                CupertinoIcons.heart_fill,
+                color: Colors.white,
+                size: 40,
+              ),
               SizedBox(height: 15.h),
               Expanded(
                 child: FirebaseAnimatedList(

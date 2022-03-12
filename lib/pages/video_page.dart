@@ -69,7 +69,7 @@ class _VideoPageState extends State<VideoPage> {
             width: double.infinity,
             alignment: Alignment.bottomCenter,
             decoration: const BoxDecoration(
-              gradient: kTopDownLogin,
+              gradient: kTopDownPurple,
               borderRadius: BorderRadius.vertical(
                 bottom: Radius.circular(40),
               ),
@@ -226,7 +226,7 @@ Widget _buildRoundBtn(IconData icon, VoidCallback onPress) {
     ),
     child: Icon(
       icon,
-      size: 32,
+      size: 28,
     ),
     onPressed: onPress,
   );

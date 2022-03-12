@@ -1,20 +1,38 @@
 // ignore_for_file: non_constant_identifier_names
 
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'model/lesson.dart';
 
 const kPurple = Color(0xFFA075D1);
 const kDarkPurple = Color(0xFF4D4290);
 
-const kTopDownLogin = LinearGradient(
+const kDownTopPurple = LinearGradient(
+  begin: Alignment.topCenter,
+  end: Alignment.bottomCenter,
+  colors: [
+    Colors.white,
+    Colors.white,
+    Color(0xFFA377D5),
+    Color(0xFFA377D5),
+  ],
+);
+
+const kTopDownPurple = LinearGradient(
   begin: Alignment.topCenter,
   end: Alignment.bottomCenter,
   colors: [
     Color(0xFFA377D5),
     Color(0xFFA377D5),
-    Color(0xFFD1EDF1),
+    Colors.white,
+  ],
+);
+
+const kTopDownGreenToPurple = LinearGradient(
+  begin: Alignment.topCenter,
+  end: Alignment.bottomCenter,
+  colors: [
+    Color(0xFF60E587),
+    Color(0xFFA08CDA),
+    Color(0xFF9A6DD5),
   ],
 );
 
@@ -22,10 +40,9 @@ const kTopDownWelcome = LinearGradient(
   begin: Alignment.topCenter,
   end: Alignment.bottomCenter,
   colors: [
-    Color(0xFF9C73D0),
-    Color(0xFFA78CD6),
-    Color(0xFF926DBE),
-    Color(0xFF9C73D0),
+    Color(0xFFCBAEE8),
+    Color(0xFFB582E8),
+    Color(0xFF99166CE),
   ],
 );
 

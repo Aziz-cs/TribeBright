@@ -39,7 +39,7 @@ class MyApp extends StatelessWidget {
       builder: () => GetMaterialApp(
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          fontFamily: 'Poppin',
+          fontFamily: 'Montserrat-Regular',
           primarySwatch: Colors.blue,
           textSelectionTheme: TextSelectionThemeData(
             cursorColor: Colors.white,
@@ -49,6 +49,7 @@ class MyApp extends StatelessWidget {
           textTheme: Theme.of(context).textTheme.apply(
                 bodyColor: Colors.white,
                 displayColor: Colors.white,
+                fontFamily: 'Montserrat-Regular',
               ),
         ),
         home: Auth.isLoggedIn() ? const NavigatorPage() : const LoginPage(),

@@ -44,7 +44,7 @@ class _NavigatorPageState extends State<NavigatorPage> {
       body: tabs[_currentIndex],
       // body: tabs[widget.currentIndex],
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: kDarkPurple,
+        backgroundColor: const Color(0xFF9166CE),
         selectedItemColor: kSelectedTrqwaz,
         unselectedItemColor: Colors.white,
         selectedFontSize: 13.sp,
@@ -80,6 +80,8 @@ class _NavigatorPageState extends State<NavigatorPage> {
         padding: const EdgeInsets.only(top: 6.0),
         child: Image.asset(
           "assets/images/$imgName.png",
+          width: 30.w,
+          height: 30.h,
           color: const Color(0xFFD2D0CE),
         ),
       ),

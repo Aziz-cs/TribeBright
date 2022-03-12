@@ -44,18 +44,26 @@ class LogsTab extends StatelessWidget {
                     icon: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Image.asset('assets/images/happy_ic.png'),
+                    Image.asset(
+                      'assets/images/happy_ic.png',
+                      height: 23.h,
+                    ),
                     SizedBox(
                       width: 6.w,
                     ),
-                    const Text('Daily Check-In'),
+                    const Text(
+                      'Daily Check-In',
+                    ),
                   ],
                 )),
                 Tab(
                     icon: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Image.asset('assets/images/journal_ic.png'),
+                    Image.asset(
+                      'assets/images/journal_ic.png',
+                      height: 21.h,
+                    ),
                     SizedBox(
                       width: 6.w,
                     ),
