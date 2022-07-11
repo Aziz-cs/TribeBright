@@ -28,9 +28,10 @@ class _VideoPageState extends State<VideoPage> {
   @override
   void initState() {
     super.initState();
-    _videoController = VideoPlayerController.network(
-        // 'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1920_18MG.mp4')
-        'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4')
+
+    _videoController = VideoPlayerController.network(widget.lesson.videoURL)
+      // 'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1920_18MG.mp4')
+      // 'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4'
       ..initialize().then((_) {
         // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
         setState(() {
@@ -60,6 +61,7 @@ class _VideoPageState extends State<VideoPage> {
 
   @override
   Widget build(BuildContext context) {
+    print(widget.lesson.videoURL);
     return Scaffold(
       body: Column(
         children: [

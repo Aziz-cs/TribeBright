@@ -25,6 +25,10 @@ class CardPlayer extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 6),
       child: GestureDetector(
         onTap: () {
+          if (lesson.videoURL.isEmpty) {
+            Helper.showToast('Video is not uploaded yet');
+            return;
+          }
           if (lesson.categoryName.toLowerCase().contains('sleep')) {
           } else {
             Get.to(() => VideoPage(lesson: lesson));
@@ -54,6 +58,10 @@ class CardPlayer extends StatelessWidget {
                     RawMaterialButton(
                       splashColor: kPurple,
                       onPressed: () {
+                        if (lesson.videoURL.isEmpty) {
+                          Helper.showToast('Video is not uploaded yet');
+                          return;
+                        }
                         if (lesson.categoryName
                             .toLowerCase()
                             .contains('sleep')) {

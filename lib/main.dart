@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ScreenUtilInit(
       designSize: const Size(357, 812),
-      builder: () => GetMaterialApp(
+      builder: (context, child) => GetMaterialApp(
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           fontFamily: 'Montserrat-Regular',

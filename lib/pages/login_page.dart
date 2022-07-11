@@ -49,7 +49,7 @@ class _LoginPageState extends State<LoginPage> {
                   height: 0.64.sh,
                   width: double.infinity,
                   decoration: BoxDecoration(
-                    gradient: kDownTopPurple,
+                    gradient: kTopDownPurple,
                     borderRadius: BorderRadius.vertical(
                         top: Radius.elliptical(
                             MediaQuery.of(context).size.width, 190.0)),
